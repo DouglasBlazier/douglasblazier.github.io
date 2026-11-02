@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Doug Blazier · Built with Claude Code</title>
+  <meta name="description" content="Operations workflows I automated with Claude Code: purchasing, receiving, inventory and reporting.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">✓</span>
+        Doug Blazier
+      </a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#projects">Projects</a>
+        <a href="#demo">Live demo</a>
+        <a href="#how">How it works</a>
+        <a href="#impact">Impact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Built with Claude Code</p>
+        <h1>I turn repetitive operations work into <span class="accent">one-word commands.</span></h1>
+        <p class="lead">
+          Purchasing, receiving, inventory adjustments and reporting used to mean hours of
+          copying numbers between emails, PDFs, spreadsheets and green-screen terminals.
+          Using Claude Code, I've built automations that do that work and leave me to review the results.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#demo">Try the live demo</a>
+          <a class="btn btn-ghost" href="#projects">See what I've built</a>
+        </div>
+        <dl class="stats">
+          <div><dt id="stat-count">13</dt><dd>workflows automated</dd></div>
+          <div><dt>5</dt><dd>systems connected<br><small>Email · PDF · Excel · ERP · Terminal</small></dd></div>
+          <div><dt>Daily</dt><dd>use in real operations</dd></div>
+          <div><dt>$0</dt><dd>to host this site</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>What I've built</h2>
+          <p>Each of these is a reusable "skill" I can start with a short command. Use the filter to browse by area.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="chip is-active" data-filter="all">All</button>
+          <button class="chip" data-filter="purchasing">Purchasing &amp; receiving</button>
+          <button class="chip" data-filter="inventory">Inventory</button>
+          <button class="chip" data-filter="reporting">Reporting</button>
+          <button class="chip" data-filter="daily">Daily operations</button>
+        </div>
+        <div class="grid" id="project-grid"><!-- filled by app.js --></div>
+      </div>
+    </section>
+
+    <!-- Demo -->
+    <section id="demo" class="section section-alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Live demo: PO discrepancy check</h2>
+          <p>
+            A simplified, in-browser version of one of my real workflows. It compares a purchase order
+            against the vendor's order confirmation and flags every difference.
+            <strong>You can change any quantity or price on the confirmation</strong>, then run the check again.
+          </p>
+          <p class="note">Sample data only. No real company, vendor or pricing information is used.</p>
+        </div>
+
+        <div class="demo">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Purchase Order <span class="muted">#PO-24017</span></h3>
+              <span class="tag">What we ordered</span>
+            </div>
+            <div class="table-scroll">
+              <table class="tbl" id="po-table">
+                <thead><tr><th>Item</th><th>Description</th><th class="num">Qty</th><th class="num">Unit cost</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Vendor Confirmation <span class="muted">editable</span></h3>
+              <span class="tag tag-warm">What they'll ship</span>
+            </div>
+            <div class="table-scroll">
+              <table class="tbl" id="conf-table">
+                <thead><tr><th>Item</th><th>Description</th><th class="num">Qty</th><th class="num">Unit cost</th><th><span class="sr-only">Remove</span></th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-actions">
+          <button class="btn btn-primary" id="run-check">Run discrepancy check</button>
+          <button class="btn btn-ghost" id="reset-demo">Reset sample data</button>
+        </div>
+
+        <div id="results" class="results" aria-live="polite" hidden></div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>How it works</h2>
+          <p>No programming background needed. You describe the job in plain English, and Claude Code builds and runs it.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <span class="step-num">1</span>
+            <h3>Describe the job</h3>
+            <p>I explain the task the way I'd train a new hire: where the files come from, what to check and what "done" looks like.</p>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <h3>Claude builds a skill</h3>
+            <p>Claude Code writes the steps, scripts and rules into a reusable skill that reads emails, PDFs and spreadsheets and can drive desktop apps.</p>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <h3>Run it on real work</h3>
+            <p>I run the skill on that day's documents. It does the tedious part and shows me anything that needs a person's judgment.</p>
+          </li>
+          <li>
+            <span class="step-num">4</span>
+            <h3>Refine and repeat</h3>
+            <p>When something's off, I say so and the skill improves. It soon becomes a one-word command I use every day.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Impact calculator -->
+    <section id="impact" class="section section-alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Estimate the time saved</h2>
+          <p>Enter your own numbers to estimate how much time automating one routine task could free up.</p>
+        </div>
+        <div class="calc">
+          <div class="calc-inputs">
+            <label>
+              <span>Times the task is done per week</span>
+              <input type="range" id="c-runs" min="1" max="40" value="10">
+              <output id="o-runs">10</output>
+            </label>
+            <label>
+              <span>Minutes it takes by hand</span>
+              <input type="range" id="c-manual" min="5" max="180" step="5" value="45">
+              <output id="o-manual">45 min</output>
+            </label>
+            <label>
+              <span>Minutes with Claude Code (including review)</span>
+              <input type="range" id="c-auto" min="1" max="60" value="10">
+              <output id="o-auto">10 min</output>
+            </label>
+          </div>
+          <div class="calc-out">
+            <div class="big"><span id="r-week">5.8</span><small>hours saved per week</small></div>
+            <div class="big"><span id="r-year">292</span><small>hours saved per year<br>(50 working weeks)</small></div>
+            <div class="big"><span id="r-days">36</span><small>8-hour workdays per year</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="wrap">
+        <h2>This website was built with Claude Code, too.</h2>
+        <p>It was designed, written and coded in a single conversation and is hosted for free on GitHub Pages.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p>© <span id="year"></span> Doug Blazier · Built with Claude Code · Demo uses sample data only</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
