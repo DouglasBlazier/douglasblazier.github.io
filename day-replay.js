@@ -172,7 +172,7 @@
   if (!reduce && "IntersectionObserver" in window) {
     const io = new IntersectionObserver(entries => {
       if (entries.some(e => e.isIntersecting)) { io.disconnect(); if (!playing && t === START) setPlaying(true); }
-    }, { threshold: 0.35 });
+    }, { threshold: 0, rootMargin: "0px 0px -45% 0px" });
     io.observe(root);
   }
 })();
