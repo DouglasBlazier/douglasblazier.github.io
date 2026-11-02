@@ -3,9 +3,9 @@
 const PROJECTS = [
   {
     area: "purchasing", icon: "🧾", title: "PO Discrepancy Check",
-    text: "Compares each purchase order against the vendor's order confirmation and marks every quantity, unit-cost and extended-cost difference directly on the PO PDF, then adds a summary page.",
-    flow: "PO + vendor confirmation → annotated PDF + summary",
-    tags: ["PDF", "Email", "Try the demo below"]
+    text: "Compares each purchase order against the vendor's order confirmation and marks every quantity, unit-cost and extended-cost difference directly on the PO PDF, then adds a summary page. The confirmed prices and quantities are then keyed into the ERP's Change Purchase Order screen, so the PO is correct before the truck arrives.",
+    flow: "PO + vendor confirmation → annotated PDF + summary → ERP PO updated",
+    tags: ["PDF", "Email", "ERP", "Try the demo below"]
   },
   {
     area: "purchasing", icon: "📦", title: "Today's Receiving POs",
