@@ -446,6 +446,19 @@ small { font-size: .8em; }
 
 .bc-jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 28px; justify-content: center; }
 .bc-jump a { text-decoration: none; }
+.bc-jump + .bc-jump { margin-top: -18px; }
+.bc-jump-label { align-self: center; min-width: 88px; text-align: right; font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.bc-group { text-align: center; font-size: clamp(1.5rem, 3vw, 2rem); margin: 12px 0 6px; scroll-margin-top: 80px; }
+.bc-group-sub { text-align: center; color: var(--muted); margin: 0 auto 28px; max-width: 60ch; }
+#shortened { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line); }
+.bc-brief ul { margin: 0; padding-left: 20px; display: grid; gap: 7px; }
+.bc-brief li { font-size: .95rem; }
+.bc-brief .bc-sec { padding: 16px 0; }
+.bc-brief .bc-sec > h3 { font-size: 1.12rem; margin-bottom: 8px; }
+.bc-brief .bc-mast { padding-top: 22px; padding-bottom: 18px; }
+.bc-brief .bc-mast .bc-title { font-size: clamp(1.7rem, 4vw, 2.2rem); }
+.bc-brief .bc-mast .bc-date { top: 22px; }
+@media (max-width: 600px) { .bc-jump-label { min-width: 100%; text-align: center; } .bc-jump + .bc-jump { margin-top: -10px; } }
 .bc-issue { background: #fff; color: #1f2430; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 34px rgba(0,0,0,.16); margin: 0 auto 48px; max-width: 900px; scroll-margin-top: 80px; font-size: 15.5px; line-height: 1.6; }
 .bc-mast { background: linear-gradient(135deg, #7a1e1e 0%, #a8322a 55%, #c8643f 100%); color: #fff; padding: 30px 34px 26px; position: relative; }
 .bc-mast .bc-brand { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; opacity: .9; font-weight: 700; }
