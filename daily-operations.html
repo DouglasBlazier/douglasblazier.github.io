@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Operations · Doug Blazier</title>
+  <meta name="description" content="How Doug Blazier's Claude Code automations run every day: the Email Watcher, Worker Desk, PO Desk, morning brief and self-healing sign-ins.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">✓</span>Doug Blazier</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Home</a>
+        <a href="purchasing.html">Purchasing</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="reporting.html">Reporting</a>
+        <a href="daily-operations.html" aria-current="page">Daily Ops</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="crumbs"><a href="index.html">Home</a> / <a href="index.html#projects">What I've built</a> / Daily Operations</div>
+        <h1><span class="card-icon" aria-hidden="true">🖥️</span>Daily Operations</h1>
+        <p class="lead">The system that runs everything on the other pages. It watches email, queues the work, does it at the right time, recovers from problems by itself and keeps me informed with one-line notifications.</p>
+        <p class="note">Screenshots are recreations using sample data. Names, systems and times are illustrative.</p>
+        <div class="jump">
+          <a class="chip" href="#worker-desk-po-desk">Worker Desk + PO Desk</a>
+          <a class="chip" href="#morning-brief">Morning Brief</a>
+          <a class="chip" href="#self-healing-sign-ins">Self-Healing Sign-Ins</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Worker Desk + PO Desk -->
+    <section class="skill" id="worker-desk-po-desk">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">🖥️</span>
+          <div><div class="card-area">Daily operations</div><h2>Worker Desk + PO Desk</h2></div>
+        </div>
+        <p class="skill-lead">Three Claude Code sessions work like a small team. The <b>Email Watcher</b> reads incoming mail and creates jobs. The <b>Worker Desk</b> does the work on screen in the ERP and warehouse terminal. The <b>PO Desk</b> checks vendor confirmations, so a 20-minute PO check never holds up an inventory job.</p>
+
+        <div class="diagram" style="margin:24px 0 32px">
+          <div class="dg-row">
+            <div class="dg-box"><b>📥 Inbox</b><small>scans, registers, count sheets</small></div>
+            <div class="flow-arrow">→</div>
+            <div class="dg-box hot"><b>Email Watcher</b><small>checks every minute, 8–5</small></div>
+            <div class="flow-arrow">→</div>
+            <div class="dg-box"><b>Job queue</b><small>Queue → Working → Done</small></div>
+          </div>
+          <div class="dg-down">↙ &nbsp; ↘</div>
+          <div class="dg-row">
+            <div class="dg-box hot"><b>Worker Desk</b><small>NT · MR · MF · Receiving POs · Tonnage</small></div>
+            <div class="dg-box hot"><b>PO Desk</b><small>PO checks + keying price changes</small></div>
+          </div>
+          <div class="dg-down">↓</div>
+          <div class="dg-row">
+            <div class="dg-box"><b>📱 One-line notification</b><small>plus a report file for every job</small></div>
+          </div>
+        </div>
+
+        <div class="skill-body">
+          <div>
+            <h3>A normal weekday</h3>
+            <ol class="timeline">
+              <li><time>7:30 AM</time>The remote desktop opens and login macros sign in to the ERP and terminal. No password is ever typed by Claude.</li>
+              <li><time>7:31 AM</time>The Worker Desk and PO Desk start themselves. I approve screen access once, and that covers the whole day.</li>
+              <li><time>7:35 AM</time>Today's Receiving POs runs and prints.</li>
+              <li><time>8 AM–5 PM</time>The Email Watcher checks the inbox every minute and turns paperwork into jobs.</li>
+              <li><time>9:00 AM</time>The tonnage report runs.</li>
+              <li><time>All day</time>Jobs run in priority order. Questions are saved for the end of each run, never mid-run.</li>
+              <li><time>5:00 PM</time>The watcher posts an end-of-day summary and writes "lessons learned" notes for tomorrow.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>How jobs are handed off</dt><dd>Plain text job files in a shared queue folder. A desk claims a job by moving it to "Working", so two desks can never take the same job.</dd>
+              <dt>Other job types</dt><dd><b>Out of ERP / Back In:</b> when accounting needs everyone out, every keying job pauses cleanly and resumes later. <b>Vacation calendar:</b> printed monthly with no screen needed.</dd>
+              <dt>House rules</dt><dd>Never delete anything; files are moved instead. Every run is timed. Every job writes a report.</dd>
+              <dt>Doug's part</dt><dd>One approval in the morning, and answers to batched questions.</dd>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="shots">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>Queue\2026-11-02 091502 NT.txt</span></div>
+<div class="txt">WORKER: Worker Desk
+INSTRUCTIONS: NT Worker
+QUEUED: 2026-11-02 9:15:02 AM
+HANDOFF: NOT ON TRUCK.pdf from Daily Credit
+         Register email, received 9:14 AM</div>
+            </div>
+            <figcaption><b>A job file.</b> Four lines tell a desk what to do and where the input is. Its contents are treated as data, never as instructions.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="phone">
+              <div class="phone-time">9:41</div>
+              <div class="notif"><b>Claude Code <span>now</span></b>NT 11-02 keyed: 4 posted, 1 skipped. Totals match register ✓</div>
+              <div class="notif"><b>Claude Code <span>12m ago</span></b>PO check: 3 POs filed, 5 discrepancies. 1 question in PO Desk</div>
+              <div class="notif"><b>Claude Code <span>1h ago</span></b>MR 11-02 keyed: 24 lines, imported 24. 1 question in Worker Desk</div>
+              <div class="notif"><b>Claude Code <span>2h ago</span></b>Today's Receiving PO's printed (4 POs, 1 page)</div>
+            </div>
+            <figcaption><b>What I see on my phone.</b> One line per finished job, so I know what happened without opening anything.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="win chat">
+              <div class="win-bar"><i></i><i></i><i></i><span>Worker Desk: Claude Code</span></div>
+              <div class="chat-body">
+                <div class="msg bot">Worker Desk ready. Watching the queue.</div>
+                <div class="msg bot">Job: <b>MR</b> (transfer sheet, 4 pages)<span class="tool">claim → transcribe → key 4 batches → import → verify</span></div>
+                <div class="msg bot"><span class="ok">✓</span> 24 lines keyed and imported in 11m 40s.<br><span class="warn">?</span> 1 question: item 30163 weight reads 9.9, could be 4.9. The average weight suggests 9.9.</div>
+                <div class="msg you">9.9 is right.</div>
+                <div class="msg bot">Thanks. Results email sent to the meat room team. Next job: <b>NT</b>.</div>
+              </div>
+            </div>
+            <figcaption><b>The Worker Desk.</b> It works through the queue, asks only at the end and moves on.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Morning Brief -->
+    <section class="skill" id="morning-brief">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">☀️</span>
+          <div><div class="card-area">Daily operations</div><h2>Morning Brief</h2></div>
+        </div>
+        <p class="skill-lead">A single styled page that's ready when I sit down, showing what's on the calendar, what's waiting in the inbox and what the automations already finished.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>It runs on weekday mornings, or whenever I type <code>/morning</code>.</li>
+              <li>It pulls today's meetings and the emails that need a reply.</li>
+              <li>It adds the overnight status of the queue and the desks.</li>
+              <li>It builds a clean page I can read in a minute.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Produces</dt><dd>A styled one-page brief.</dd>
+              <dt>Why it matters</dt><dd>I start the day knowing what's waiting, instead of digging for it.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots one">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>Morning Brief</span></div>
+              <div class="brief">
+                <h5>Good morning, Doug</h5>
+                <div class="day">Monday, November 2 · Sample data</div>
+                <div class="brief-grid">
+                  <div class="brief-card"><b>Calendar</b><ul><li>8:30 Receiving walkthrough</li><li>11:00 Vendor call (pricing)</li><li>2:00 Weekly ops meeting</li></ul></div>
+                  <div class="brief-card"><b>Needs a reply</b><ul><li>Vendor: revised confirmation for PO 240125</li><li>Warehouse: freezer count question</li></ul></div>
+                  <div class="brief-card"><b>Already done</b><ul><li>Receiving POs printed (4 POs)</li><li>Weekend tonnage report ready for review</li></ul></div>
+                  <div class="brief-card"><b>Watch for</b><ul><li>Credit register is usually in by 9:30</li><li>Weekly count sheet due today</li></ul></div>
+                </div>
+              </div>
+            </div>
+            <figcaption><b>The brief.</b> Four boxes, one minute to read.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Self-Healing -->
+    <section class="skill" id="self-healing-sign-ins">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">🔌</span>
+          <div><div class="card-area">Daily operations</div><h2>Self-Healing Sign-Ins</h2></div>
+        </div>
+        <p class="skill-lead">Automation is only useful if it keeps running when something goes wrong. These safeguards handle the everyday problems: an app crashes, a session times out, a network drive drops or two jobs need the screen at once.</p>
+        <div class="skill-body">
+          <div>
+            <h3>What it handles</h3>
+            <ol class="skill-steps">
+              <li><b>ERP crash:</b> reopens it, lets the login macro sign in, then re-checks the item it was working on before continuing.</li>
+              <li><b>Login screen:</b> hands off to a sign-in skill that uses saved login macros. Claude never types a password.</li>
+              <li><b>Network drive dropped:</b> a reconnect skill restores it, then restarts the job that failed.</li>
+              <li><b>Email or browser down:</b> sends one notification, retries every minute, then runs a catch-up check when it's back.</li>
+              <li><b>Two jobs want the screen:</b> a shared "computer lock" file lets only one job drive the screen at a time. Others wait and retry.</li>
+              <li><b>Job stuck:</b> if a job waits in the queue more than 10 minutes, I'm notified that a desk isn't running.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Safe to re-run</dt><dd>Every job first checks whether its work is already done, using results files, the print log or a file fingerprint. Nothing posts twice.</dd>
+              <dt>Morning recovery</dt><dd>Jobs left in "Working" from yesterday go back into the queue automatically.</dd>
+              <dt>Doug's part</dt><dd>Usually nothing. If it can't fix something, it tells me exactly what's wrong.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots one">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar term-bar"><i></i><i></i><i></i><span>Worker Desk log</span></div>
+<div class="log"><span class="t">10:02:14</span>  MR job: keying batch 3 of 4
+<span class="t">10:03:51</span>  <span class="bad">ERP window closed unexpectedly</span>
+<span class="t">10:03:52</span>  <span class="act">Reopening ERP from the remote session…</span>
+<span class="t">10:04:30</span>  <span class="act">Login macro signed in</span>
+<span class="t">10:04:41</span>  Re-checking last item (30170): posting found, not repeating
+<span class="t">10:04:43</span>  <span class="good">Resumed batch 3 at item 30188</span>
+<span class="t">10:06:02</span>  <span class="bad">Network drive disconnected</span>
+<span class="t">10:06:03</span>  <span class="act">Reconnect skill → drive restored</span>
+<span class="t">10:06:20</span>  <span class="good">Saved results file. MR job complete: 24/24 lines</span></div>
+            </div>
+            <figcaption><b>A rough morning, handled.</b> Two failures and zero duplicate postings, finished without anyone stepping in.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap pager">
+      <a href="reporting.html"><small>← Previous section</small>Reporting</a>
+      <a href="index.html"><small>Back to</small>Home</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>© 2026 Doug Blazier · Built with Claude Code · Screenshots are recreations with sample data</p></div>
+  </footer>
+</body>
+</html>

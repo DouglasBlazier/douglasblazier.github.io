@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventory · Doug Blazier</title>
+  <meta name="description" content="Examples of the inventory adjustment workflows Doug Blazier automated with Claude Code.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">✓</span>Doug Blazier</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Home</a>
+        <a href="purchasing.html">Purchasing</a>
+        <a href="inventory.html" aria-current="page">Inventory</a>
+        <a href="reporting.html">Reporting</a>
+        <a href="daily-operations.html">Daily Ops</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="crumbs"><a href="index.html">Home</a> / <a href="index.html#projects">What I've built</a> / Inventory</div>
+        <h1><span class="card-icon" aria-hidden="true">📦</span>Inventory</h1>
+        <p class="lead">Keeping system quantities in line with what's really on the shelves. These workflows read credit registers, handwritten sheets and count spreadsheets, then key the adjustments into the warehouse green screen and the ERP, keyboard only, with every posting checked.</p>
+        <p class="note">Every screenshot on this page is a recreation using made-up sample data. Items, slots and quantities are invented.</p>
+        <div class="jump">
+          <a class="chip" href="#not-on-truck-adjustments">Not-On-Truck</a>
+          <a class="chip" href="#handwritten-transfer-sheets">Handwritten Sheets</a>
+          <a class="chip" href="#meat-room-adjustments">Meat Room</a>
+          <a class="chip" href="#weekly-final-count-adjustments">Weekly Final Count</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Not-On-Truck -->
+    <section class="skill" id="not-on-truck-adjustments">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">🚚</span>
+          <div><div class="card-area">Inventory</div><h2>Not-On-Truck Adjustments</h2></div>
+        </div>
+        <p class="skill-lead">When a customer is credited because an item didn't make it onto the truck, that product is still in the warehouse and has to go back into inventory. This workflow turns the scanned credit register into a checked spreadsheet, then keys every line back into the right slot.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>The Email Watcher spots the credit register email and queues the "Not On Truck" scan.</li>
+              <li>It reads the scan and builds a spreadsheet. Each item number is read twice and cross-checked.</li>
+              <li><b>Validation gate:</b> every return-code subtotal and the report total must match the register's printed totals to the penny before anything is keyed.</li>
+              <li>For each item, it checks the item history. If someone already fixed it after the last sale, it's skipped.</li>
+              <li>It opens the item's slots in the green screen and posts the quantity back with reason code <b>NT</b>.</li>
+              <li>It writes a results file in which posted plus held lines must equal the register's total.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>The daily credit register arrives by email. If it hasn't arrived by 1 PM, Doug gets a notification.</dd>
+              <dt>Produces</dt><dd><i>Not On Truck Adjustments.xlsx</i> (two tabs) and a results text file listing every posting.</dd>
+              <dt>Built-in safety</dt><dd>Duplicate lines are combined, negative slots are fixed in the right order, and certain items are never adjusted automatically.</dd>
+              <dt>Doug's part</dt><dd>Answers questions on held items, such as whole-muscle meat or items that need expiration dates, all at the end of the run.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots">
+          <figure class="shot">
+            <div class="win mail">
+              <div class="win-bar"><i></i><i></i><i></i><span>Outlook: Inbox</span></div>
+              <div class="mail-head"><b>Daily Credit Register</b><span>From: Accounting · Today, 9:14 AM</span></div>
+              <span class="mail-att">NOT ON TRUCK.pdf · 3 pages</span>
+              <div class="mail-body">Attached are today's credit registers.<br><span style="color:#888">Email Watcher: classified as Not On Truck → queued NT job at 9:15 AM</span></div>
+            </div>
+            <figcaption><b>1. The trigger.</b> The watcher picks the right attachment out of several and queues the job.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="win xl">
+              <div class="win-bar"><i></i><i></i><i></i><span>Not On Truck Adjustments 11-02-2026.xlsx</span></div>
+              <div class="xl-formula"><b>D8</b>=SUM(D3:D7)</div>
+              <div class="win-body">
+                <table>
+                  <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr></thead>
+                  <tbody>
+                    <tr><th>1</th><td colspan="7" style="font-weight:700;text-align:center;background:#f2f2f2">Not On Truck - 11-02-2026</td></tr>
+                    <tr class="hdr"><th>2</th><td>Page</td><td>Return Code</td><td>Item Number</td><td class="num">Qty.</td><td>Description</td><td>Invoice #</td><td>Invoice Date</td></tr>
+                    <tr><th>3</th><td>1</td><td>NT</td><td>10034</td><td class="num">3</td><td>Flour, All-Purpose 50 LB</td><td>771204</td><td>11/01/26</td></tr>
+                    <tr><th>4</th><td>1</td><td>NT</td><td class="f-blue">10458A</td><td class="num f-blue">2</td><td>Rice, Long Grain 25 LB</td><td>771219</td><td>11/01/26</td></tr>
+                    <tr><th>5</th><td>2</td><td>NT</td><td>10072</td><td class="num">1</td><td>Tomato Paste 6/#10</td><td>771233</td><td>11/01/26</td></tr>
+                    <tr><th>6</th><td>2</td><td>D</td><td>10091</td><td class="num">4</td><td>Tortillas, Flour 12in</td><td>771240</td><td>11/01/26</td></tr>
+                    <tr><th>7</th><td>3</td><td>NT</td><td>10085</td><td class="num">2</td><td>Black Beans 6/#10</td><td>771252</td><td>11/01/26</td></tr>
+                    <tr><th>8</th><td colspan="3" style="font-weight:700;text-align:right">Total</td><td class="num" style="font-weight:700">12</td><td colspan="3" style="color:#1e6e43">✓ matches register total</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="xl-tabs"><span class="on">Other Lines</span><span>Highlighted</span></div>
+            </div>
+            <figcaption><b>2. The checked spreadsheet.</b> Lines that shouldn't be keyed automatically go to a separate "Highlighted" tab.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar term-bar"><i></i><i></i><i></i><span>Warehouse terminal (24×80)</span></div>
+<div class="term"><span class="w">SLOT MAINTENANCE - CHANGE                    11/02/26</span>
+<span class="dim">Path: 13 Item Maint → item → 12=Slots → 2=Change</span>
+
+ Item . . . . : <span class="w">10034  FLOUR, ALL-PURPOSE 50 LB</span>
+ Slot . . . . : <span class="w">A-14-02-1</span>      Pick slot: <span class="w">Y</span>
+ On hand  . . : <span class="w">12</span>
+
+ Quantity . . : <span class="fld">     3</span>
+ Reason code  : <span class="fld">NT</span>
+ Memo . . . . : <span class="fld">Claude NT 11/02     </span>
+
+<span class="y">Enter=Post   PageUp=Slot list   F12=Back</span>
+<span class="inv"> POSTED: 10034  A-14-02-1  12 → 15 </span></div>
+            </div>
+            <figcaption><b>3. Keying it back.</b> Driven entirely by keyboard, never by clicking fields, so every posting is predictable.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>NT Slot Adjustments 11-02-2026 - Results.txt</span></div>
+<div class="txt">NT SLOT ADJUSTMENTS  11-02-2026
+SUMMARY   Lines 5 · Units 12 · Posted 4 · Skipped 1
+          Format 3m 12s · Entry 4m 48s
+
+POSTED
+  10034   FLOUR AP 50LB      A-14-02   12 →  15  (+3)
+  10458A  RICE LG 25LB       B-03-01    6 →   8  (+2)
+  10072   TOM PASTE #10      A-22-04    9 →  10  (+1)
+  10091   TORTILLA 12IN      C-08-02   20 →  24  (+4)
+
+NOT ADJUSTED
+  10085   BLACK BEANS #10    adjusted by staff after
+                             last sale; skipped
+
+NOTES
+  Posted 10 + skipped 2 = 12 units ✓ matches register</div>
+            </div>
+            <figcaption><b>4. The results file.</b> Every unit is accounted for. If the totals don't match, the run isn't finished.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Handwritten -->
+    <section class="skill" id="handwritten-transfer-sheets">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">✍️</span>
+          <div><div class="card-area">Inventory</div><h2>Handwritten Transfer Sheets</h2></div>
+        </div>
+        <p class="skill-lead">The meat room records its transfers by hand on a printed form, which is then scanned. This workflow reads the handwriting, including strike-throughs, arrows and margin notes, and builds the adjustment workbook.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>It rotates and zooms the scanned pages: four grid pages, a chicken and piece-code page, and an optional freezer page.</li>
+              <li>It reads each row and compares doubtful digits against the same writer's other digits, such as an open-top 4 vs. a closed-loop 9.</li>
+              <li>When a weight looks off, it checks the item's normal minimum, maximum and average weight in the ERP.</li>
+              <li>It follows the sheet's own marks: strike-throughs, arrows, brackets and rows that spill over.</li>
+              <li>It writes every handwritten value in <b style="color:#1f4fd1">bold blue</b>, so it's obvious what came from the sheet.</li>
+              <li>It reports a "Please check" list of every doubtful digit and its alternative reading.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>The meat room's transfer scan arrives by email (an MR job).</dd>
+              <dt>Produces</dt><dd><i>MR Adjustment Sheet.xlsx</i> with Chicken &amp; Piece Codes, Meat Room and Freezer tabs.</dd>
+              <dt>Gets smarter</dt><dd>Doug highlights any misread in yellow, and the lesson is added to the skill.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>Scanned transfer sheet, page 2</span></div>
+              <div class="scan">
+                <div class="t">INVENTORY TRANSFERS: GROUND BEEF</div>
+                <table>
+                  <thead><tr><th>Item Code</th><th>Description</th><th>CS</th><th>Weight</th></tr></thead>
+                  <tbody>
+                    <tr><td>30144</td><td style="font-family:Arial;font-size:12px;color:#222">Ground Beef 80/20</td><td>4</td><td>41.6</td></tr>
+                    <tr><td>30151</td><td style="font-family:Arial;font-size:12px;color:#222">Ground Beef 73/27</td><td><s>3</s> 2</td><td>19.4</td></tr>
+                    <tr><td>30163</td><td style="font-family:Arial;font-size:12px;color:#222">Ground Chuck</td><td>1</td><td>9.<span style="border-bottom:2px dotted #c00">9</span></td></tr>
+                    <tr><td>30170</td><td style="font-family:Arial;font-size:12px;color:#222">Beef Patties 4oz</td><td>2</td><td>20 →</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <figcaption><b>The scan.</b> Handwriting, a strike-through and an arrow. The dotted digit could be a 4 or a 9.</figcaption>
+          </figure>
+          <figure class="shot">
+            <div class="win xl">
+              <div class="win-bar"><i></i><i></i><i></i><span>MR Adjustment Sheet 11-2-26.xlsx</span></div>
+              <div class="win-body">
+                <table>
+                  <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr></thead>
+                  <tbody>
+                    <tr class="hdr"><th>1</th><td>Item Code</td><td>Description</td><td class="num">CS</td><td class="num">Weight</td><td>Notes</td></tr>
+                    <tr><th>2</th><td>30144</td><td>Ground Beef 80/20</td><td class="num" style="color:#1f4fd1;font-weight:700">4</td><td class="num" style="color:#1f4fd1;font-weight:700">41.6</td><td></td></tr>
+                    <tr><th>3</th><td>30151</td><td>Ground Beef 73/27</td><td class="num" style="color:#1f4fd1;font-weight:700">2</td><td class="num" style="color:#1f4fd1;font-weight:700">19.4</td><td>3 crossed out → 2</td></tr>
+                    <tr><th>4</th><td>30163</td><td>Ground Chuck</td><td class="num" style="color:#1f4fd1;font-weight:700">1</td><td class="num" style="color:#1f4fd1;font-weight:700">9.9</td><td>9 or 4? Avg wt 10.0 → 9</td></tr>
+                    <tr><th>5</th><td>30170</td><td>Beef Patties 4oz</td><td class="num" style="color:#1f4fd1;font-weight:700">2</td><td class="num" style="color:#1f4fd1;font-weight:700">20.0</td><td>arrow → carried to next row</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="xl-tabs"><span>Chicken&amp;PieceCodes</span><span class="on">MeatRoom</span><span>Freezer</span></div>
+            </div>
+            <figcaption><b>The transcription.</b> Sheet values in bold blue, with a note explaining every judgment call.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meat Room Adjustments -->
+    <section class="skill" id="meat-room-adjustments">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">🥩</span>
+          <div><div class="card-area">Inventory</div><h2>Meat Room Adjustments</h2></div>
+        </div>
+        <p class="skill-lead">Once the transfer sheet is transcribed, every line has to be posted to the warehouse system and imported into the ERP. This workflow does it in fast, scripted batches, then emails the meat team a clean summary.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>It sets up the screen: unneeded windows are minimised (never closed), and the item screen goes beside the green screen.</li>
+              <li>It looks up every item's slots and its ERP numbers in one pass, and writes the math for each line.</li>
+              <li>It posts in batches of six. The posting rule depends on the section: chicken, piece codes, the grid or the freezer.</li>
+              <li>It imports the batch into the ERP and confirms the "N item adjustments imported" message.</li>
+              <li>It re-checks the ERP, writes the results file and sends one results email once every question is settled.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>Right after the handwritten sheet is transcribed. There's no waiting for a review.</dd>
+              <dt>Rules it follows</dt><dd>Quantity and pounds must have the same sign. A negative meat weight is reset to quantity × average weight.</dd>
+              <dt>Produces</dt><dd>A results file showing each slot's old → new value, plus one summary email with the workbook attached.</dd>
+              <dt>Doug's part</dt><dd>Answers batched item questions. The email waits until he has.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>MR Slot Adjustments 11-02-2026 - Results.txt</span></div>
+<div class="txt">MR SLOT ADJUSTMENTS  11-02-2026
+SUMMARY  24 lines · 4 batches · imported 24 · 0 errors
+
+CHICKEN
+  30101  THIGHS BNLS 40LB  slot M-01-1  52 → 47  (−5)
+PIECE CODES
+  30210  STRIP STEAK 12OZ  slot M-04-2  set to 36
+GRID
+  30144  GRND BEEF 80/20   4 cs · 41.6 lb decrease
+  30151  GRND BEEF 73/27   2 cs · 19.4 lb decrease
+FREEZER
+  30388  PORK BUTT FZN     +3 cs
+
+NOTES
+  Window setup: item screen beside terminal ✓
+  ERP import: "24 item adjustments imported" ✓</div>
+            </div>
+            <figcaption><b>Results file.</b> Each section follows its own posting rule, and every change shows its old and new value.</figcaption>
+          </figure>
+          <figure class="shot">
+            <div class="win mail">
+              <div class="win-bar"><i></i><i></i><i></i><span>Outlook: Message</span></div>
+              <div class="mail-head"><b>MR Adjustments 11/02: keyed and imported</b><span>To: Meat room team · Attachment: MR Adjustment Sheet 11-2-26.xlsx</span></div>
+              <div class="mail-body">
+                <b>Chicken Adjustments:</b>
+                <table><tr><th>Item #</th><th>Quantity</th></tr><tr><td>30101</td><td>−5</td></tr></table>
+                <br><b>MR Adjustment Sheet</b>
+                <table><tr><th>Item #</th><th>Quantity</th><th>Weight</th></tr><tr><td>30144</td><td>−4</td><td>−41.6</td></tr><tr><td>30151</td><td>−2</td><td>−19.4</td></tr></table>
+                <br><b>Please check:</b><ol style="margin:4px 0 0;padding-left:18px"><li>30163: weight read as 9.9 (could be 4.9)</li></ol>
+              </div>
+            </div>
+            <figcaption><b>The results email.</b> Exactly one per sheet, sent only when nothing is left open.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weekly Final Count -->
+    <section class="skill" id="weekly-final-count-adjustments">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">🔢</span>
+          <div><div class="card-area">Inventory</div><h2>Weekly Final-Count Adjustments</h2></div>
+        </div>
+        <p class="skill-lead">Once a week the meat room does a physical count. This workflow makes the system match it, keeping the warehouse terminal and the ERP in agreement along the way.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>It picks up the weekly count spreadsheet from email. Only rows with a count are used.</li>
+              <li>It looks up each item's true quantity and average weight in the ERP.</li>
+              <li>It adds up all of the item's slots in the warehouse terminal.</li>
+              <li>If the terminal and the ERP disagree, it first posts a sync adjustment (<b>DK</b>) so they match.</li>
+              <li>It then posts <b>MF = count − ERP quantity</b> on the pick slot, with weight = quantity × average weight.</li>
+              <li>It imports into the ERP, verifies the result and sends the summary email.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>The weekly count spreadsheet arrives by email.</dd>
+              <dt>Safety</dt><dd>A sheet is never keyed twice. An average weight of 0.00 means "hold and ask", never a guess.</dd>
+              <dt>Produces</dt><dd>A results file and one summary email in the same format as Meat Room Adjustments.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots one">
+          <figure class="shot">
+            <div class="win xl">
+              <div class="win-bar"><i></i><i></i><i></i><span>MF worksheet (generated)</span></div>
+              <div class="xl-formula"><b>G3</b>=C3-D3</div>
+              <div class="win-body">
+                <table>
+                  <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr></thead>
+                  <tbody>
+                    <tr class="hdr"><th>1</th><td>Item</td><td>Description</td><td class="num">Weekly Count</td><td class="num">ERP True Qty</td><td class="num">Terminal Slots</td><td class="num">DK (sync)</td><td class="num">MF Posting</td></tr>
+                    <tr><th>2</th><td>30101</td><td>Chicken Thighs 40 LB</td><td class="num">52</td><td class="num">55</td><td class="num">55</td><td class="num">—</td><td class="num f-red">−3</td></tr>
+                    <tr><th>3</th><td>30144</td><td>Ground Beef 80/20</td><td class="num">18</td><td class="num">16</td><td class="num">15</td><td class="num f-yellow">+1</td><td class="num f-green">+2</td></tr>
+                    <tr><th>4</th><td>30188</td><td>Pork Butt</td><td class="num">24</td><td class="num">24</td><td class="num">24</td><td class="num">—</td><td class="num">no change</td></tr>
+                    <tr><th>5</th><td>30202</td><td>Beef Short Rib</td><td class="num">9</td><td class="num">11</td><td class="num">12</td><td class="num f-yellow">−1</td><td class="num f-red">−2</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="xl-tabs"><span class="on">MF Math</span><span>Inventory MASTER</span></div>
+            </div>
+            <figcaption><b>The math behind each posting.</b> Sync the terminal to the ERP first (DK), then adjust both to the physical count (MF).</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap pager">
+      <a href="purchasing.html"><small>← Previous section</small>Purchasing &amp; Receiving</a>
+      <a href="reporting.html"><small>Next section →</small>Reporting</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>© 2026 Doug Blazier · Built with Claude Code · Screenshots are recreations with sample data</p></div>
+  </footer>
+</body>
+</html>

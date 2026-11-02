@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Purchasing &amp; Receiving · Doug Blazier</title>
+  <meta name="description" content="Examples of the purchasing and receiving workflows Doug Blazier automated with Claude Code.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">✓</span>Doug Blazier</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Home</a>
+        <a href="purchasing.html" aria-current="page">Purchasing</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="reporting.html">Reporting</a>
+        <a href="daily-operations.html">Daily Ops</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="crumbs"><a href="index.html">Home</a> / <a href="index.html#projects">What I've built</a> / Purchasing &amp; Receiving</div>
+        <h1><span class="card-icon" aria-hidden="true">🧾</span>Purchasing &amp; Receiving</h1>
+        <p class="lead">Checking vendor paperwork against our purchase orders, getting the receiving dock its daily list, and finding discount pricing we're owed. These workflows read scans, PDFs and text exports, then produce documents that are ready to file or print.</p>
+        <p class="note">Every screenshot on this page is a recreation using made-up sample data. Vendors, items, POs and prices are invented.</p>
+        <div class="jump">
+          <a class="chip" href="#po-discrepancy-check">PO Discrepancy Check</a>
+          <a class="chip" href="#todays-receiving-pos">Today's Receiving POs</a>
+          <a class="chip" href="#order-acknowledgment-reformatter">Acknowledgment Reformatter</a>
+          <a class="chip" href="#discount-deviation-matching">Deviation Matching</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PO Discrepancy Check -->
+    <section class="skill" id="po-discrepancy-check">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">🧾</span>
+          <div><div class="card-area">Purchasing &amp; receiving</div><h2>PO Discrepancy Check</h2></div>
+        </div>
+        <p class="skill-lead">Vendors send order confirmations that don't always match what we ordered: a price creeps up, a quantity gets cut, or an item disappears. This workflow checks every line and marks up the PO the way a buyer would with a red pen.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>A copier scan arrives by email holding one or more POs and their vendor confirmations, with pages in any order.</li>
+              <li>A script sorts the pages and pairs each PO with its confirmation. A quick contact sheet double-checks the pairing.</li>
+              <li>One helper agent per PO checks the pairs in parallel, so a ten-PO scan takes about as long as a single PO.</li>
+              <li>The math is checked on both documents: quantity × unit cost = extended, the lines add up to the printed total, and catch weight matches the pack size.</li>
+              <li>Every difference is marked on the PO pages, and a summary page explaining the dollar difference is added.</li>
+              <li>The vendor-confirmed prices and quantities are then keyed into the ERP's Change Purchase Order screen, so the PO is correct before the truck arrives.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>A scan with a vendor confirmation lands in the inbox. The Email Watcher queues it automatically.</dd>
+              <dt>Produces</dt><dd>One PDF per PO, in this order: annotated PO pages → vendor confirmation pages → summary page. Filed by vendor and date.</dd>
+              <dt>Counts as a discrepancy</dt><dd>Any price or quantity difference, a line on only one document, a different pack size, or a price confirmed at $0.00.</dd>
+              <dt>Doesn't count</dt><dd>Catch-weight overage, per-lb vs. per-case pricing that ties to the cent, and rounding in the last printed digit.</dd>
+              <dt>Doug's part</dt><dd>Reviews the finished files. When it isn't sure which number is the price, it asks him instead of guessing, then remembers his answer for that vendor.</dd>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="shots">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>Sample Vendor Co. - PO 240117.pdf, page 1</span></div>
+              <div class="win-body pdf">
+                <div class="paper">
+                  <div class="bigstamp">3 Discrepancies<small>On This PO</small></div>
+                  <h4>PURCHASE ORDER</h4>
+                  <div class="sub"><span>PO 240117 · Sample Vendor Co.</span><span>Req. 11/04/26</span></div>
+                  <table>
+                    <thead><tr><th></th><th>Vendor Item</th><th>Description</th><th class="num">Qty</th><th class="num">Unit Cost</th></tr></thead>
+                    <tbody>
+                      <tr><td class="m"></td><td>SV-1021<span class="tick">✓</span></td><td>Mozzarella, Shredded 4/5 LB</td><td class="num">40<span class="tick">✓</span></td><td class="num">62.5000<span class="tick">✓</span></td></tr>
+                      <tr><td class="m"><span class="flag-dot">!</span></td><td>SV-1034<span class="tick">✓</span></td><td>Flour, All-Purpose 50 LB</td><td class="num"><span class="struck">25</span><span class="fix sm">20 - Qty Cut By Vendor</span></td><td class="num">18.7500<span class="tick">✓</span></td></tr>
+                      <tr><td class="m"><span class="flag-dot">!</span></td><td>SV-1058<span class="tick">✓</span></td><td>Oil, Canola 35 LB</td><td class="num">30<span class="tick">✓</span></td><td class="num"><span class="struck">41.2000</span><span class="fix">43.8000</span></td></tr>
+                      <tr><td class="m"></td><td>SV-1072<span class="tick">✓</span></td><td>Tomato Paste 6/#10</td><td class="num">20<span class="tick">✓</span></td><td class="num">38.9000<span class="tick">✓</span></td></tr>
+                      <tr><td class="m"><span class="flag-dot">!</span></td><td>SV-1117</td><td>Jalapeños, Sliced 6/#10</td><td class="num"><span class="struck">12</span><span class="fix sm">0 - Not On Confirmation</span></td><td class="num">33.1500</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="extra">⚑ ITEMS ON CONFIRMATION NOT ON THIS P.O.: SV-1129 - 6cs</div>
+                </div>
+              </div>
+            </div>
+            <figcaption><b>The annotated PO.</b> A "!" flags each problem line, ✓ marks every field that agrees, corrections are written under the printed value with a reason, and a stamp shows the discrepancy count.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>Sample Vendor Co. - PO 240117.pdf, last page</span></div>
+              <div class="win-body pdf">
+                <div class="paper">
+                  <h4>DISCREPANCY SUMMARY: 3 DISCREPANCIES</h4>
+                  <div class="sub"><span>Vendor: Sample Vendor Co. · Confirmation SO-88213</span><span>5 PO lines</span></div>
+                  <table>
+                    <thead><tr><th>Item</th><th>Issue</th><th class="num">ON P.O.</th><th class="num">ON CONFIRMATION</th></tr></thead>
+                    <tbody>
+                      <tr><td>SV-1034</td><td>Quantity</td><td class="num">25</td><td class="num">20</td></tr>
+                      <tr><td>SV-1058</td><td>Unit cost</td><td class="num">41.2000</td><td class="num">43.8000</td></tr>
+                      <tr><td>SV-1117</td><td>Missing</td><td class="num">12</td><td class="num">—</td></tr>
+                    </tbody>
+                  </table>
+                  <div class="recon">
+                    <span>P.O. total</span><span>5,380.55</span>
+                    <span>Qty cut, SV-1034 (−5 × 18.75)</span><span>−93.75</span>
+                    <span>Price change, SV-1058 (30 × +2.60)</span><span>+78.00</span>
+                    <span>Not confirmed, SV-1117 (−12 × 33.15)</span><span>−397.80</span>
+                    <span>Not ordered, SV-1129 (6 × 31.00)</span><span>+186.00</span>
+                    <span class="last">Confirmation total: Explained</span><span class="last">5,153.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <figcaption><b>The summary page.</b> Every dollar of difference between the PO and the confirmation is accounted for, ending in an "Explained" line.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="win chat">
+              <div class="win-bar"><i></i><i></i><i></i><span>PO Desk: Claude Code</span></div>
+              <div class="chat-body">
+                <div class="msg bot">New PO job: copier scan, 14 pages.<span class="tool">split_scan → 3 PO / confirmation pairs found</span></div>
+                <div class="msg bot">Checking all 3 in parallel…<span class="tool">helper 1 · helper 2 · helper 3</span></div>
+                <div class="msg bot"><span class="ok">✓</span> PO 240117: 3 discrepancies<br><span class="ok">✓</span> PO 240122: 0 discrepancies<br><span class="warn">?</span> PO 240125: two figures could be the price. <b>Needs Doug.</b></div>
+                <div class="msg you">Use the case price for that vendor.</div>
+                <div class="msg bot">Got it. Saved as a rule for that vendor. PO 240125: 2 discrepancies. All 3 files filed, and the changes are keyed into the ERP.</div>
+              </div>
+            </div>
+            <figcaption><b>A typical run.</b> Uncertain prices are never guessed. The PO Desk asks, and the answer becomes a rule for next time.</figcaption>
+          </figure>
+        </div>
+        <p style="margin-top:24px"><a class="btn btn-ghost" href="index.html#demo">Try the interactive version of this check →</a></p>
+      </div>
+    </section>
+
+    <!-- Today's Receiving POs -->
+    <section class="skill" id="todays-receiving-pos">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">📦</span>
+          <div><div class="card-area">Purchasing &amp; receiving</div><h2>Today's Receiving POs</h2></div>
+        </div>
+        <p class="skill-lead">Every morning the receivers need a printed list of every PO due in today. This workflow runs the report, cleans it up and prints it before anyone asks.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>At 7:35 AM it checks the print log. If today's list already printed, it stops.</li>
+              <li>It confirms the network drive is connected and the default printer is the office printer.</li>
+              <li>It runs the ERP's PO Status report (Summary style, today's required date) and saves it as a PDF.</li>
+              <li>It reads the PDF and checks that every vendor subtotal and the report total add up.</li>
+              <li>It builds a clean Excel sheet and prints it in the background, without using the screen.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>Automatically, every weekday at 7:35 AM.</dd>
+              <dt>Produces</dt><dd>A one-page-wide printed list, plus <i>Today's Receiving PO's.xlsx</i>.</dd>
+              <dt>Checks</dt><dd>Subtotals and the grand total must reconcile. Odd lines, such as a test vendor, are flagged.</dd>
+              <dt>Doug's part</dt><dd>None. He gets a one-line notification when it's printed.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>PO Status Report.pdf</span></div>
+              <div class="win-body pdf">
+                <div class="paper mono-paper">
+<pre style="margin:0">PO STATUS REPORT          STYLE: SUMMARY        PAGE 1
+REQUIRED DATE: 11/02/26 THRU 11/02/26
+--------------------------------------------------------
+VENDOR                CODE    P.O. #      PURCHASE AMT
+SAMPLE VENDOR CO.     SVC01   240117          5,380.55
+                                    VENDOR TOTAL  5,380.55
+NORTHSIDE PRODUCE     NSP02   240119          2,415.60
+NORTHSIDE PRODUCE     NSP02   240121            988.40
+                                    VENDOR TOTAL  3,404.00
+RIVERBEND DAIRY       RBD03   240124          9,870.25
+                                    VENDOR TOTAL  9,870.25
+--------------------------------------------------------
+                                    REPORT TOTAL 18,654.80</pre>
+                </div>
+              </div>
+            </div>
+            <figcaption><b>Before:</b> the raw report from the ERP, with subtotals and repeated headers on every page.</figcaption>
+          </figure>
+          <figure class="shot">
+            <div class="win xl">
+              <div class="win-bar"><i></i><i></i><i></i><span>Today's Receiving PO's.xlsx</span></div>
+              <div class="xl-formula"><b>D7</b>=SUM(D3:D6)</div>
+              <div class="win-body">
+                <table>
+                  <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th></tr></thead>
+                  <tbody>
+                    <tr><th>1</th><td colspan="4" style="font-weight:700;font-size:13px">1 Original Page (4 PO's on Last Page) - 11/02/26 - PO's Scheduled To Receive</td></tr>
+                    <tr class="hdr"><th>2</th><td>Vendor Name</td><td>Code</td><td>P.O. Number</td><td class="num">Purchase Amount</td></tr>
+                    <tr><th>3</th><td>Sample Vendor Co.</td><td>SVC01</td><td>240117</td><td class="num">$5,380.55</td></tr>
+                    <tr><th>4</th><td>Northside Produce</td><td>NSP02</td><td>240119</td><td class="num">$2,415.60</td></tr>
+                    <tr><th>5</th><td>Northside Produce</td><td>NSP02</td><td>240121</td><td class="num">$988.40</td></tr>
+                    <tr><th>6</th><td>Riverbend Dairy</td><td>RBD03</td><td>240124</td><td class="num">$9,870.25</td></tr>
+                    <tr><th>7</th><td colspan="3" style="font-weight:700;text-align:right">Report Total:</td><td class="num" style="font-weight:700">$18,654.80</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="xl-tabs"><span class="on">Sheet1</span></div>
+            </div>
+            <figcaption><b>After:</b> one clean, print-ready list for the receiving dock, with a live total.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Acknowledgment Reformatter -->
+    <section class="skill" id="order-acknowledgment-reformatter">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">📄</span>
+          <div><div class="card-area">Purchasing &amp; receiving</div><h2>Order Acknowledgment Reformatter</h2></div>
+        </div>
+        <p class="skill-lead">Some vendors export order acknowledgments as long text files that repeat the same header on every page. This workflow strips the repetition, so the whole order fits on one readable page that's named by its PO number.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>Drop in the vendor's raw acknowledgment text export.</li>
+              <li>It finds the customer PO number and keeps the order header once.</li>
+              <li>It removes the repeated page headers, footers and page breaks.</li>
+              <li>It lines the item rows up into a compact single-page layout.</li>
+              <li>It saves the result as <i>{PO number}.TXT</i>, ready to compare against the PO.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>A vendor acknowledgment export needs to be reviewed.</dd>
+              <dt>Produces</dt><dd>One compact text file named by PO number.</dd>
+              <dt>Why it matters</dt><dd>A three-page printout becomes one page, and the file name says exactly which PO it belongs to.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>O18_20261102.TXT, before</span></div>
+<div class="txt"><span class="hl">*  O R D E R   A C K N O W L E D G M E N T  *</span>
+<span class="hl">SAMPLE VENDOR CO.            PAGE 1 OF 3</span>
+CUSTOMER PO: 240117     SHIP: 11/04/26
+-----------------------------------------
+SV-1021  MOZZ SHRED 4/5LB     40  62.50
+SV-1034  FLOUR AP 50LB        20  18.75
+
+<span class="hl">*  O R D E R   A C K N O W L E D G M E N T  *</span>
+<span class="hl">SAMPLE VENDOR CO.            PAGE 2 OF 3</span>
+<span class="hl">CUSTOMER PO: 240117     SHIP: 11/04/26</span>
+<span class="hl">-----------------------------------------</span>
+SV-1058  OIL CANOLA 35LB      30  43.80
+SV-1072  TOM PASTE 6/#10      20  38.90
+
+<span class="hl">*  O R D E R   A C K N O W L E D G M E N T  *</span>
+<span class="hl">SAMPLE VENDOR CO.            PAGE 3 OF 3</span>
+…</div>
+            </div>
+            <figcaption><b>Before:</b> the highlighted lines repeat on every page.</figcaption>
+          </figure>
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>240117.TXT, after</span></div>
+<div class="txt">ORDER ACKNOWLEDGMENT: SAMPLE VENDOR CO.
+CUSTOMER PO: 240117     SHIP: 11/04/26
+-----------------------------------------
+SV-1021  MOZZ SHRED 4/5LB     40  62.50
+SV-1034  FLOUR AP 50LB        20  18.75
+SV-1058  OIL CANOLA 35LB      30  43.80
+SV-1072  TOM PASTE 6/#10      20  38.90
+SV-1085  BLACK BEANS 6/#10    15  28.95
+SV-1091  TORTILLA 12IN 6/12   50  24.10
+SV-1129  CHIPOTLE 12/7OZ       6  31.00
+-----------------------------------------
+7 LINES                     TOTAL 6,792.25</div>
+            </div>
+            <figcaption><b>After:</b> one page, one header, named by its PO number.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Discount Deviation Matching -->
+    <section class="skill" id="discount-deviation-matching">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">💲</span>
+          <div><div class="card-area">Purchasing &amp; receiving</div><h2>Discount Deviation Matching</h2></div>
+        </div>
+        <p class="skill-lead">Vendors offer "deviation" pricing: discounts on specific items for specific periods. This workflow matches what we carry against the vendor's deviation list, so no eligible discount gets missed.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>Takes the vendor inventory report and the vendor's deviation (discount) price list.</li>
+              <li>Matches items between the two, even where codes or descriptions are formatted differently.</li>
+              <li>Checks each match for eligibility, such as the date range and pack size.</li>
+              <li>Builds a <i>Deviation Matches</i> workbook listing every eligible item and its discount.</li>
+              <li>Files the original reports away so the folder stays clean.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>A vendor sends an updated inventory report or deviation list.</dd>
+              <dt>Produces</dt><dd>A workbook of eligible items with deviation prices and the savings per case.</dd>
+              <dt>Why it matters</dt><dd>Discounts we qualify for get claimed instead of slipping by.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots one">
+          <figure class="shot">
+            <div class="win xl">
+              <div class="win-bar"><i></i><i></i><i></i><span>Deviation Matches - Sample Vendor Co.xlsx</span></div>
+              <div class="xl-formula"><b>G3</b>=E3-F3</div>
+              <div class="win-body">
+                <table>
+                  <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th></tr></thead>
+                  <tbody>
+                    <tr class="hdr"><th>1</th><td>Item</td><td>Description</td><td>Pack</td><td class="num">On Hand</td><td class="num">List Price</td><td class="num">Deviation Price</td><td class="num">Savings / Case</td></tr>
+                    <tr class="f-green"><th>2</th><td>SV-1021</td><td>Mozzarella, Shredded</td><td>4/5 LB</td><td class="num">112</td><td class="num">62.50</td><td class="num">58.25</td><td class="num">4.25</td></tr>
+                    <tr class="f-green"><th>3</th><td>SV-1058</td><td>Oil, Canola</td><td>35 LB</td><td class="num">64</td><td class="num">43.80</td><td class="num">41.90</td><td class="num">1.90</td></tr>
+                    <tr class="f-green"><th>4</th><td>SV-1091</td><td>Tortillas, Flour 12in</td><td>6/12 ct</td><td class="num">220</td><td class="num">24.10</td><td class="num">22.60</td><td class="num">1.50</td></tr>
+                    <tr class="f-yellow"><th>5</th><td>SV-1085</td><td>Black Beans</td><td>6/#10</td><td class="num">38</td><td class="num">28.95</td><td class="num">27.40</td><td class="num">1.55</td></tr>
+                    <tr><th>6</th><td colspan="7" style="color:#8a6d00;font-style:italic">Row 5: the deviation starts 11/15. Not eligible yet; flagged for review.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="xl-tabs"><span class="on">Deviation Matches</span><span>Inventory Report</span><span>Price List</span></div>
+            </div>
+            <figcaption><b>The match workbook.</b> Green rows are eligible now, and yellow rows need a look.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap pager">
+      <a href="index.html#projects"><small>← Back to</small>All projects</a>
+      <a href="inventory.html"><small>Next section →</small>Inventory</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>© 2026 Doug Blazier · Built with Claude Code · Screenshots are recreations with sample data</p></div>
+  </footer>
+</body>
+</html>

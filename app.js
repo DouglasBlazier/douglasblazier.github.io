@@ -88,6 +88,15 @@ const AREA_LABEL = {
   daily: "Daily operations"
 };
 
+// Each area has its own page; each project has a section on that page.
+const AREA_PAGE = {
+  purchasing: "purchasing.html",
+  inventory: "inventory.html",
+  reporting: "reporting.html",
+  daily: "daily-operations.html"
+};
+const slug = s => s.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
 const grid = document.getElementById("project-grid");
 document.getElementById("stat-count").textContent = PROJECTS.length;
 
@@ -107,7 +116,8 @@ function renderProjects(filter) {
       </div>
       <p>${p.text}</p>
       <div class="card-flow">${p.flow}</div>
-      <div class="tags">${p.tags.map(t => `<span class="tag${t.startsWith("Try") ? " tag-warm" : ""}">${t}</span>`).join("")}</div>`;
+      <div class="tags">${p.tags.map(t => `<span class="tag${t.startsWith("Try") ? " tag-warm" : ""}">${t}</span>`).join("")}</div>
+      <a class="card-cta" href="${AREA_PAGE[p.area]}#${slug(p.title)}">See examples <span aria-hidden="true">→</span></a>`;
     grid.appendChild(card);
   });
 }

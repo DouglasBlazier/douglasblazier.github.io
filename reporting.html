@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reporting · Doug Blazier</title>
+  <meta name="description" content="Examples of the reporting workflows Doug Blazier automated with Claude Code.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="style.css">
+  <style>.xl .f-pink { background: #f8cbe0; } .xl .xnote td { font-weight: 700; white-space: normal; } .xl .reply td { color: #1f4fd1; height: 18px; } .xl .gap td { height: 10px; padding: 0; border-color: #eee; }</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">✓</span>Doug Blazier</a>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Home</a>
+        <a href="purchasing.html">Purchasing</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="reporting.html" aria-current="page">Reporting</a>
+        <a href="daily-operations.html">Daily Ops</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="crumbs"><a href="index.html">Home</a> / <a href="index.html#projects">What I've built</a> / Reporting</div>
+        <h1><span class="card-icon" aria-hidden="true">⚖️</span>Reporting</h1>
+        <p class="lead">The daily tonnage report catches shipments whose catch weights look wrong: weights that were averaged, keyed by hand or entered for the wrong pack unit. Two workflows turn a raw export into a color-coded, investigated report that's ready for review.</p>
+        <p class="note">Every screenshot on this page is a recreation using made-up sample data. Customers, items, invoices and weights are invented.</p>
+        <div class="jump">
+          <a class="chip" href="#tonnage-report-formatter">Tonnage Report Formatter</a>
+          <a class="chip" href="#tonnage-report-check">Tonnage Report Check</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formatter -->
+    <section class="skill" id="tonnage-report-formatter">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">⚖️</span>
+          <div><div class="card-area">Reporting</div><h2>Tonnage Report Formatter</h2></div>
+        </div>
+        <p class="skill-lead">The raw tonnage export is one long sheet of every weighed shipment. This workflow adds the math, pulls out the rows worth a second look and fixes a known pack-size issue on one product family.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>At 9:00 AM it runs the ERP's tonnage report and exports it to Excel. On Mondays it covers Saturday through Monday, and missed days are added automatically.</li>
+              <li>It adds two formula columns: <b>Avg</b> = Qty × Item Weight, and <b>Var</b> = Ext. Weight − Avg.</li>
+              <li>A row is an outlier when the item is weight-tracked and |Var| is more than <b>20 lb</b>.</li>
+              <li>Mozzarella rows get a corrected item weight worked out from the pack size (for example 4/5 LB → 20 lb) before they're judged.</li>
+              <li>It writes three tabs: <b>20up</b> (outliers), <b>Mozzarella</b> (corrected rows) and <b>Sheet1</b> (all the data with formulas).</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <dl>
+              <dt>Starts when</dt><dd>Automatically at 9:00 AM each weekday.</dd>
+              <dt>Produces</dt><dd><i>Tonnage_Report_M-D-YY.xlsx</i> with 20up, Mozzarella and Sheet1 tabs.</dd>
+              <dt>Why it matters</dt><dd>Hundreds of rows become a short list worth checking.</dd>
+            </dl>
+          </aside>
+        </div>
+        <div class="shots one">
+          <figure class="shot">
+            <div class="win xl">
+              <div class="win-bar"><i></i><i></i><i></i><span>Tonnage_Report_11-2-26.xlsx</span></div>
+              <div class="xl-formula"><b>I3</b>=G3-H3</div>
+              <div class="win-body">
+                <table>
+                  <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th></tr></thead>
+                  <tbody>
+                    <tr class="hdr"><th>1</th><td>Ship To Company</td><td>Invoice #</td><td>Item #</td><td>Track</td><td>Description</td><td class="num">Qty</td><td class="num">Ext. Weight</td><td class="num">Avg (Qty×Wt)</td><td class="num">Var</td></tr>
+                    <tr><th>2</th><td>Corner Taqueria</td><td>551188</td><td>30101</td><td>Y</td><td>Chicken Thighs 40 LB</td><td class="num">6</td><td class="num">238.4</td><td class="num">240.0</td><td class="num">−1.6</td></tr>
+                    <tr class="f-yellow"><th>3</th><td>Sample Bistro</td><td>551201</td><td>30155</td><td>Y</td><td>Beef Brisket 50 LB</td><td class="num">2</td><td class="num">130.0</td><td class="num">100.0</td><td class="num"><b>30.0</b></td></tr>
+                    <tr><th>4</th><td>Harbor Cafe</td><td>551207</td><td>10034</td><td>N</td><td>Flour, All-Purpose 50 LB</td><td class="num">8</td><td class="num">400.0</td><td class="num">400.0</td><td class="num">0.0</td></tr>
+                    <tr class="f-yellow"><th>5</th><td>Lakeside Grill</td><td>551215</td><td>30210</td><td>Y</td><td>Strip Steak 12 LB</td><td class="num">4</td><td class="num">21.0</td><td class="num">48.0</td><td class="num"><b>−27.0</b></td></tr>
+                    <tr class="f-gray"><th>6</th><td>Pizza Co.</td><td>551222</td><td>20021</td><td>Y</td><td>Mozzarella 4/5 LB <span style="color:#1e6e43">(wt 5 → 20)</span></td><td class="num">30</td><td class="num">600.0</td><td class="num">600.0</td><td class="num">0.0</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="xl-tabs"><span>20up</span><span>Mozzarella</span><span class="on">Sheet1</span></div>
+            </div>
+            <figcaption><b>Sheet1 with the added math.</b> Yellow rows go over the ±20 lb line and move to the 20up tab. The mozzarella row looked 450 lb off until its pack size was read correctly.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Check -->
+    <section class="skill" id="tonnage-report-check">
+      <div class="wrap">
+        <div class="skill-head">
+          <span class="card-icon" aria-hidden="true">🎨</span>
+          <div><div class="card-area">Reporting</div><h2>Tonnage Report Check</h2></div>
+        </div>
+        <p class="skill-lead">For each outlier, this workflow opens the invoice in the ERP and reads every case weight, the way I would. It looks for signs of averaged or mistyped weights, finds the bills of lading, then color-codes and sorts the report using my rules.</p>
+        <div class="skill-body">
+          <div>
+            <h3>How it runs</h3>
+            <ol class="skill-steps">
+              <li>For each 20up row, it opens the invoice in view-only mode with a fixed keyboard routine and reads every case weight.</li>
+              <li>It looks for patterns: identical weights on two or more cases (a possible average), or a weight that matches one unit of the pack instead of a full case.</li>
+              <li>For possible averages, it walks back through purchase history to find the bills of lading (BOLs) to check. Meat always gets at least two.</li>
+              <li>It colors every row, adds bold notes under the rows that need them and leaves an empty reply row for my answer.</li>
+              <li>It sorts by color group, then by variance, with a blank row between groups.</li>
+              <li>After I review and recolor, it reorganizes my saved file and keeps my colors and notes.</li>
+            </ol>
+          </div>
+          <aside class="facts">
+            <h3 style="margin-top:0">Color rules</h3>
+            <ul class="rules">
+              <li><span class="swatch" style="background:#ffc7ce"></span><span><b>Red:</b> weights confirmed wrong, after I check the BOLs</span></li>
+              <li><span class="swatch" style="background:#ffeb9c"></span><span><b>Yellow + note:</b> possible average, single-unit weight, or an odd employee purchase</span></li>
+              <li><span class="swatch" style="background:#c6efce"></span><span><b>Green + FYI:</b> scanned, but weights cluster tightly</span></li>
+              <li><span class="swatch" style="background:#ddebf7"></span><span><b>Blue:</b> beef trim or combo tote</span></li>
+              <li><span class="swatch" style="background:#f8cbe0"></span><span><b>Pink:</b> meat-room cut or cut-to-order item</span></li>
+              <li><span class="swatch" style="background:#e7e6e6"></span><span><b>Gray:</b> miscellaneous keyed-weight item</span></li>
+              <li><span class="swatch" style="background:#c6efce"></span><span><b>Green:</b> every case scanned with varying weights, so it's fine</span></li>
+            </ul>
+          </aside>
+        </div>
+        <div class="shots">
+          <figure class="shot">
+            <div class="win">
+              <div class="win-bar"><i></i><i></i><i></i><span>ERP: Change Invoice (view only) → Enter Weights</span></div>
+              <div class="win-body" style="padding:14px 16px;font-family:Segoe UI, Arial, sans-serif">
+                <div style="font-size:12px;color:#555;margin-bottom:8px">Invoice 551201 · Item 30155 Beef Brisket 50 LB · Qty 2</div>
+                <table style="border-collapse:collapse;width:100%;font-size:12.5px">
+                  <tr style="background:#eef1f6"><th style="text-align:left;padding:4px 8px;border:1px solid #d8dde6">Case</th><th style="text-align:right;padding:4px 8px;border:1px solid #d8dde6">Weight (lb)</th></tr>
+                  <tr><td style="padding:3px 8px;border:1px solid #e3e3e3">1</td><td style="padding:3px 8px;border:1px solid #e3e3e3;text-align:right;background:#ffeb9c">65.00</td></tr>
+                  <tr><td style="padding:3px 8px;border:1px solid #e3e3e3">2</td><td style="padding:3px 8px;border:1px solid #e3e3e3;text-align:right;background:#ffeb9c">65.00</td></tr>
+                  
+                  <tr style="font-weight:700"><td style="padding:3px 8px;border:1px solid #e3e3e3">Total</td><td style="padding:3px 8px;border:1px solid #e3e3e3;text-align:right">130.00</td></tr>
+                </table>
+                <div style="margin-top:10px;font-size:12px;color:#8a6d00">Both cases keyed at exactly 65.00 → possible average. Pull 2 BOLs.</div>
+              </div>
+            </div>
+            <figcaption><b>The lookup.</b> Every weight is read, not just the total. Two identical, round case weights are a red flag.</figcaption>
+          </figure>
+
+          <figure class="shot">
+            <div class="win xl">
+              <div class="win-bar"><i></i><i></i><i></i><span>Tonnage_Report_11-2-26.xlsx, 20up</span></div>
+              <div class="win-body">
+                <table>
+                  <thead><tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead>
+                  <tbody>
+                    <tr class="hdr"><th>1</th><td>Invoice #</td><td>Item #</td><td>Description</td><td class="num">Qty</td><td class="num">Ext. Wt.</td><td class="num">Var.</td></tr>
+                    <tr class="f-red"><th>2</th><td>551230</td><td>30202</td><td>Beef Short Rib</td><td class="num">5</td><td class="num">60.0</td><td class="num">−30.0</td></tr>
+                    <tr class="gap"><th></th><td colspan="6"></td></tr>
+                    <tr class="f-yellow"><th>4</th><td>551201</td><td>30155</td><td>Beef Brisket</td><td class="num">2</td><td class="num">130.0</td><td class="num">30.0</td></tr>
+                    <tr class="xnote"><th>5</th><td colspan="6">Possible Average - Check 2 BOL's (2 x 65) BOL: PO 240088 (Sample Meats, rcvd 10/28/26), PO 240102 (Sample Meats, rcvd 10/31/26)</td></tr>
+                    <tr class="reply"><th>6</th><td colspan="6"></td></tr>
+                    <tr class="gap"><th></th><td colspan="6"></td></tr>
+                    <tr class="f-green"><th>8</th><td>551236</td><td>30230</td><td>Ribeye Steak</td><td class="num">6</td><td class="num">61.2</td><td class="num">−22.8</td></tr>
+                    <tr class="xnote"><th>9</th><td colspan="6">FYI: every case scanned, weights cluster 9.8–10.6</td></tr>
+                    <tr class="gap"><th></th><td colspan="6"></td></tr>
+                    <tr class="f-blue"><th>11</th><td>551241</td><td>30400</td><td>Beef Trim Combo Tote</td><td class="num">1</td><td class="num">1,968.0</td><td class="num">−32.0</td></tr>
+                    <tr class="gap"><th></th><td colspan="6"></td></tr>
+                    <tr class="f-pink"><th>13</th><td>551244</td><td>30310</td><td>Pork Loin, Cut To Order</td><td class="num">3</td><td class="num">52.0</td><td class="num">28.0</td></tr>
+                    <tr class="gap"><th></th><td colspan="6"></td></tr>
+                    <tr class="f-gray"><th>15</th><td>551249</td><td>30520</td><td>Misc Keyed-Weight Item</td><td class="num">2</td><td class="num">72.0</td><td class="num">22.0</td></tr>
+                    <tr class="gap"><th></th><td colspan="6"></td></tr>
+                    <tr class="f-green"><th>17</th><td>551215</td><td>30210</td><td>Strip Steak</td><td class="num">4</td><td class="num">21.0</td><td class="num">−27.0</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="xl-tabs"><span class="on">20up</span><span>Mozzarella</span><span>Sheet1</span></div>
+            </div>
+            <figcaption><b>The finished 20up tab.</b> Grouped Red → Yellow → Green with a note → Blue → Pink → Gray → Green, with notes merged under each row and a blue reply row for me.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap pager">
+      <a href="inventory.html"><small>← Previous section</small>Inventory</a>
+      <a href="daily-operations.html"><small>Next section →</small>Daily Operations</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>© 2026 Doug Blazier · Built with Claude Code · Screenshots are recreations with sample data</p></div>
+  </footer>
+</body>
+</html>
