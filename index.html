@@ -6,7 +6,7 @@
   <title>Doug Blazier · Built with Claude Code</title>
   <meta name="description" content="Operations workflows I automated with Claude Code: purchasing, receiving, inventory and reporting.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
-  <link rel="stylesheet" href="style.css?v=20261102g">
+  <link rel="stylesheet" href="style.css?v=20261102h">
 </head>
 <body>
   <header class="topbar">
@@ -38,7 +38,7 @@
           Using Claude Code, I've built automations that do that work and leave me to review the results.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#demo">Try the live demo</a>
+          <a class="btn btn-primary" href="#demo">Watch a day in the life</a>
           <a class="btn btn-ghost" href="#projects">See what I've built</a>
         </div>
         <dl class="stats">
@@ -74,53 +74,63 @@
       </div>
     </section>
 
-    <!-- Demo -->
+    <!-- Demo: a day in the life -->
     <section id="demo" class="section section-alt">
       <div class="wrap">
         <div class="section-head">
-          <h2>Live demo: PO discrepancy check</h2>
+          <h2>A day in the life of my automations</h2>
           <p>
-            A simplified, in-browser version of one of my real workflows. It compares a purchase order
-            against the vendor's order confirmation and flags every difference.
-            <strong>You can change any quantity or price on the confirmation</strong>, then run the check again.
+            Press play to watch a sample workday at high speed. Email arrives, the Email Watcher turns it into jobs,
+            two Claude Code desks do the work, and I get a one-line notification for each.
+            <strong>Drag the timeline</strong> to jump to any time of day.
           </p>
-          <p class="note">Sample data only. No real company, vendor or pricing information is used.</p>
+          <p class="note">A replay using sample data. Times and results are illustrative.</p>
         </div>
 
-        <div class="demo">
-          <div class="panel">
-            <div class="panel-head">
-              <h3>Purchase Order <span class="muted">#PO-24017</span></h3>
-              <span class="tag">What we ordered</span>
+        <div class="day" id="day">
+          <div class="day-controls">
+            <button class="btn btn-primary" id="day-play" type="button">▶ Play</button>
+            <button class="btn btn-ghost" id="day-restart" type="button">↺ Restart</button>
+            <div class="day-speed" role="group" aria-label="Playback speed">
+              <button type="button" data-speed="1" aria-pressed="false">1×</button>
+              <button type="button" data-speed="2" aria-pressed="true">2×</button>
+              <button type="button" data-speed="4" aria-pressed="false">4×</button>
             </div>
-            <div class="table-scroll">
-              <table class="tbl" id="po-table">
-                <thead><tr><th>Item</th><th>Description</th><th class="num">Qty</th><th class="num">Unit cost</th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
+            <div class="day-clock" id="day-clock" aria-live="off">7:25 AM</div>
           </div>
 
-          <div class="panel">
-            <div class="panel-head">
-              <h3>Vendor Confirmation <span class="muted">editable</span></h3>
-              <span class="tag tag-warm">What they'll ship</span>
+          <div class="day-timeline">
+            <input type="range" id="day-scrub" step="1" aria-label="Time of day">
+            <div class="day-marks" id="day-marks" aria-hidden="true"></div>
+            <div class="day-hours" id="day-hours" aria-hidden="true"></div>
+            <div class="day-legend"><span><i class="worker"></i>Worker Desk job</span><span><i class="po"></i>PO Desk job</span></div>
+          </div>
+
+          <div class="day-grid">
+            <div class="day-col">
+              <h3>📥 Inbox</h3>
+              <p class="day-status" id="day-watcher"></p>
+              <ul class="day-list" id="day-inbox"></ul>
             </div>
-            <div class="table-scroll">
-              <table class="tbl" id="conf-table">
-                <thead><tr><th>Item</th><th>Description</th><th class="num">Qty</th><th class="num">Unit cost</th><th><span class="sr-only">Remove</span></th></tr></thead>
-                <tbody></tbody>
-              </table>
+            <div class="day-col">
+              <h3>🗂️ Job queue</h3>
+              <ul class="day-list" id="day-queue"></ul>
+            </div>
+            <div class="day-col">
+              <h3>🖥️ Claude Code desks</h3>
+              <div class="day-desk" id="desk-worker"></div>
+              <div class="day-desk" id="desk-po"></div>
+              <div class="day-erp" id="day-erp"></div>
+            </div>
+            <div class="day-col">
+              <h3>📱 My phone</h3>
+              <div class="phone day-phone">
+                <div class="phone-time" id="day-phone-time">7:25</div>
+                <div id="day-notes"></div>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="demo-actions">
-          <button class="btn btn-primary" id="run-check">Run discrepancy check</button>
-          <button class="btn btn-ghost" id="reset-demo">Reset sample data</button>
-        </div>
-
-        <div id="results" class="results" aria-live="polite" hidden></div>
       </div>
     </section>
 
@@ -204,6 +214,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=20261102g"></script>
+  <script src="app.js?v=20261102h"></script>
+  <script src="day-replay.js?v=20261102h"></script>
 </body>
 </html>

@@ -243,6 +243,59 @@ small { font-size: .8em; }
   .badge { justify-self: start; }
 }
 
+/* ---------- Day-in-the-life replay (home page) ---------- */
+.day { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+.day-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.day-speed { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.day-speed button { font: inherit; font-weight: 700; border: 0; background: transparent; color: var(--muted); padding: 11px 13px; cursor: pointer; }
+.day-speed button[aria-pressed="true"] { background: var(--bg-alt); color: var(--text); }
+.day-clock { margin-left: auto; font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--accent); }
+.day-timeline { margin: 16px 0 6px; }
+.day-timeline input { width: 100%; accent-color: var(--accent); margin: 0; }
+.day-marks, .day-hours { position: relative; margin: 0 9px; }
+.day-marks { height: 10px; margin-top: 4px; }
+.day-marks i { position: absolute; top: 0; width: 8px; height: 8px; border-radius: 50%; transform: translateX(-50%); }
+.day-marks i.worker, .day-legend i.worker { background: var(--accent); }
+.day-marks i.po, .day-legend i.po { background: var(--info); }
+.day-hours { height: 18px; font-size: .72rem; color: var(--muted); }
+.day-hours span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.day-legend { display: flex; gap: 16px; justify-content: flex-end; font-size: .78rem; color: var(--muted); margin-top: 4px; }
+.day-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.day-grid { display: grid; grid-template-columns: 1fr 1fr 1.1fr 290px; gap: 16px; margin-top: 18px; align-items: start; }
+.day-col h3 { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 10px; }
+.day-status { font-size: .82rem; color: var(--muted); margin: -4px 0 10px; }
+.day-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.day-list li { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; font-size: .86rem; line-height: 1.35; }
+.day-list li.new, .day-notif-new, #day-notes .notif.new { animation: fadeUp .45s ease both; }
+.day-list li.day-empty { color: var(--muted); font-style: italic; background: transparent; border-style: dashed; }
+.day-list small { display: block; color: var(--muted); font-size: .76rem; margin-top: 2px; }
+.day-tag { float: right; font-size: .68rem; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); margin-left: 6px; }
+.day-tag.muted-tag { background: var(--bg-alt); color: var(--muted); }
+.day-code { display: inline-block; font-family: Consolas, monospace; font-size: .72rem; font-weight: 800; padding: 1px 6px; border-radius: 5px; background: var(--bg-alt); margin-right: 6px; }
+.st { font-weight: 800; text-transform: uppercase; letter-spacing: .04em; font-size: .7rem; }
+.st-queued { color: var(--warn); } .st-working { color: var(--info); } .st-done { color: var(--ok); }
+.day-desk { border: 2px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; background: var(--bg); transition: border-color .2s ease; }
+.day-desk b { display: block; }
+.day-desk.busy { border-color: var(--accent); }
+.day-desk.off { opacity: .6; }
+.day-doing { font-size: .86rem; color: var(--muted); min-height: 2.6em; margin-top: 2px; }
+.day-bar { height: 6px; background: var(--bg-alt); border-radius: 99px; overflow: hidden; margin-top: 6px; }
+.day-bar span { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 99px; }
+.day-erp { font-size: .84rem; padding: 9px 12px; border-radius: 10px; font-weight: 700; }
+.erp-ok { background: var(--ok-soft); color: var(--ok); } .erp-out { background: var(--warn-soft); color: var(--warn); }
+.erp-bad { background: var(--bad-soft); color: var(--bad); } .erp-off { background: var(--bg-alt); color: var(--muted); }
+.day-phone { width: 100%; min-height: 360px; padding: 10px 10px 16px; border-radius: 28px; }
+.day-phone .phone-time { font-size: 28px; margin: 8px 0 12px; }
+@media (max-width: 1050px) { .day-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) {
+  .day { padding: 14px; }
+  .day-grid { grid-template-columns: 1fr; }
+  .day-clock { margin-left: 0; width: 100%; font-size: 1.6rem; }
+  .day-hours span:nth-child(even) { display: none; }
+  .day-legend { justify-content: flex-start; }
+  .day-phone { min-height: 0; }
+}
+
 /* ---------- Card button (home page) ---------- */
 .card-cta {
   display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
