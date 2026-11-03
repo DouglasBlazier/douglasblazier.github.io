@@ -6,7 +6,7 @@
   <title>Douglas Blazier · Built with Claude Code</title>
   <meta name="description" content="Operations workflows I automated with Claude Code: purchasing, receiving, inventory and reporting.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
-  <link rel="stylesheet" href="style.css?v=20261103d">
+  <link rel="stylesheet" href="style.css?v=20261103e">
 </head>
 <body>
   <header class="topbar">
@@ -18,7 +18,6 @@
         <a href="buyers-corner.html">Buyer's Corner</a>
         <a href="purchasing.html">Examples</a>
         <a href="#how">How it works</a>
-        <a href="#impact">Impact</a>
       </nav>
     </div>
   </header>
@@ -163,37 +162,48 @@
       </div>
     </section>
 
-    <!-- Impact calculator -->
-    <section id="impact" class="section section-alt">
+    <!-- Built-in safety checks -->
+    <section id="safety" class="section section-alt">
       <div class="wrap">
         <div class="section-head">
-          <h2>Estimate the time saved</h2>
-          <p>Enter your own numbers to estimate how much time automating one routine task could free up.</p>
+          <h2>Built-in safety checks</h2>
+          <p>Automation is only useful if it can be trusted. Every skill follows the same ground rules, so a fast mistake never replaces a slow, correct job.</p>
         </div>
-        <div class="calc">
-          <div class="calc-inputs">
-            <label>
-              <span>Times the task is done per week</span>
-              <input type="range" id="c-runs" min="1" max="40" value="10">
-              <output id="o-runs">10</output>
-            </label>
-            <label>
-              <span>Minutes it takes by hand</span>
-              <input type="range" id="c-manual" min="5" max="180" step="5" value="45">
-              <output id="o-manual">45 min</output>
-            </label>
-            <label>
-              <span>Minutes with Claude Code (including review)</span>
-              <input type="range" id="c-auto" min="1" max="60" value="10">
-              <output id="o-auto">10 min</output>
-            </label>
-          </div>
-          <div class="calc-out">
-            <div class="big"><span id="r-week">5.8</span><small>hours saved per week</small></div>
-            <div class="big"><span id="r-year">292</span><small>hours saved per year<br>(50 working weeks)</small></div>
-            <div class="big"><span id="r-days">36</span><small>8-hour workdays per year</small></div>
-          </div>
+        <div class="safety">
+          <article class="safe-card">
+            <div class="safe-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16.5 9.5"/></svg></div>
+            <div>
+              <h3>Numbers must match</h3>
+              <p>Before anything is keyed, totals are checked against the source document: the credit register, the count sheet or the vendor confirmation. If they don't match, the job stops.</p>
+              <div class="safe-eg"><span>Example</span>Register total 42 cases = sheet total 42 cases ✓</div>
+            </div>
+          </article>
+          <article class="safe-card">
+            <div class="safe-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 4v-4h0A1.5 1.5 0 0 1 4 14.5z"/><path d="M10 8.6a2 2 0 1 1 2.8 1.9c-.5.2-.8.6-.8 1.1v.3"/><path d="M12 13.6h.01"/></svg></div>
+            <div>
+              <h3>Asks instead of guessing</h3>
+              <p>Hard-to-read handwriting, an item that isn't in the system or anything outside the rules becomes a question for me, never a guess.</p>
+              <div class="safe-eg"><span>Example</span>"Row 7 could be 18 or 13. Which is it?"</div>
+            </div>
+          </article>
+          <article class="safe-card">
+            <div class="safe-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <div>
+              <h3>I review the results</h3>
+              <p>Results come back as a short summary or a marked-up PDF that I check. Nothing goes to a vendor or a coworker on its own.</p>
+              <div class="safe-eg"><span>Example</span>PO 230301: 2 price differences marked for review</div>
+            </div>
+          </article>
+          <article class="safe-card">
+            <div class="safe-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4"/></svg></div>
+            <div>
+              <h3>Every run is logged</h3>
+              <p>Each job records what it read, what it keyed and the result, so any number can be traced back to where it came from.</p>
+              <div class="safe-eg"><span>Example</span>9:36 AM · NT · 4 posted · 1 skipped · totals match</div>
+            </div>
+          </article>
         </div>
+        <p class="note safe-note">Examples use sample data.</p>
       </div>
     </section>
 
@@ -211,7 +221,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=20261103d"></script>
-  <script src="day-replay.js?v=20261103d"></script>
+  <script src="app.js?v=20261103e"></script>
+  <script src="day-replay.js?v=20261103e"></script>
 </body>
 </html>

@@ -131,20 +131,4 @@ document.querySelectorAll(".chip").forEach(chip => {
 });
 renderProjects("all");
 
-// ---------- Time-saved calculator ----------
-const $ = id => document.getElementById(id);
-function calc() {
-  const runs = +$("c-runs").value, manual = +$("c-manual").value, auto = +$("c-auto").value;
-  $("o-runs").textContent = runs;
-  $("o-manual").textContent = manual + " min";
-  $("o-auto").textContent = auto + " min";
-  const week = Math.max(0, runs * (manual - auto)) / 60;
-  const year = week * 50;
-  $("r-week").textContent = week.toFixed(1);
-  $("r-year").textContent = Math.round(year).toLocaleString();
-  $("r-days").textContent = Math.round(year / 8).toLocaleString();
-}
-["c-runs", "c-manual", "c-auto"].forEach(id => $(id).addEventListener("input", calc));
-calc();
-
-$("year").textContent = new Date().getFullYear();
+document.getElementById("year").textContent = new Date().getFullYear();
