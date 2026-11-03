@@ -85,6 +85,7 @@ small { font-size: .8em; }
 @media (max-width: 600px) { .nav { flex-wrap: wrap; } }
 .nav a { color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: 8px; font-size: .95rem; white-space: nowrap; }
 .nav a:hover { color: var(--text); background: var(--bg-alt); }
+.nav-ico { width: 1.05em; height: 1.05em; vertical-align: -0.15em; margin-right: 5px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Buttons */
 .btn {
