@@ -448,6 +448,15 @@ html:has(.subnav) { scroll-padding-top: 126px; }
 .xl-tabs { display: flex; gap: 2px; padding: 0 8px; background: #f3f3f3; border-top: 1px solid #d4d4d4; font-size: 12px; }
 .xl-tabs span { padding: 5px 14px; color: #555; }
 .xl-tabs span.on { background: #fff; color: #1e6e43; font-weight: 700; border-bottom: 2px solid #1e6e43; }
+/* Phones: tighter mock screens. fit.js then shrinks anything still wider than its window. */
+@media (max-width: 600px) {
+  .xl { font-size: 11px; }
+  .xl th, .xl td { padding: 2px 4px; height: 20px; }
+  .xl td:not(.num) { white-space: normal; }
+  .xl thead th, .xl tbody th { font-size: 10px; }
+  .xl-tabs span { padding: 4px 8px; }
+  .txt, .term, .log { font-size: 11px; padding: 10px; }
+}
 
 /* Green-screen terminal */
 .term { background: #0b0f0b; color: #39ff7a; font-family: Consolas, "Courier New", monospace; font-size: 12.5px; line-height: 1.45; padding: 14px 16px; white-space: pre; overflow-x: auto; }
