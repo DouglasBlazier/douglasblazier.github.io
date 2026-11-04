@@ -6,19 +6,26 @@
   <title>Douglas Blazier · Built with Claude Code</title>
   <meta name="description" content="Operations workflows I automated with Claude Code: purchasing, receiving, inventory and reporting.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
-  <link rel="stylesheet" href="style.css?v=20261104b">
+  <link rel="stylesheet" href="style.css?v=20261104c">
+  <script>
+    // Old links like index.html#projects now open the section's own page.
+    (function () {
+      var moved = { "#projects": "projects.html", "#how": "how-it-works.html", "#safety": "safety.html" };
+      if (moved[location.hash]) location.replace(moved[location.hash]);
+    })();
+  </script>
 </head>
 <body>
   <header class="topbar">
     <div class="wrap topbar-inner">
-      <a class="brand" href="#top">Douglas <span>Blazier</span></a>
+      <a class="brand" href="index.html">Douglas <span>Blazier</span></a>
       <nav class="nav" aria-label="Sections">
-        <a href="#top" aria-current="page"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9v11h4.5v-6h4v6h4.5V9"/></svg>Home</a>
-        <a href="#projects">Projects</a>
+        <a href="index.html" aria-current="page"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9v11h4.5v-6h4v6h4.5V9"/></svg>Home</a>
+        <a href="projects.html">Projects</a>
         <a href="buyers-corner.html">Buyer's Corner</a>
         <a href="purchasing.html">Examples</a>
-        <a href="#how">How it works</a>
-        <a href="#safety">Safety Checks</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="safety.html">Safety Checks</a>
       </nav>
     </div>
   </header>
@@ -36,7 +43,7 @@
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#demo">Watch a day in the life</a>
-          <a class="btn btn-ghost" href="#projects">See what I've built</a>
+          <a class="btn btn-ghost" href="projects.html">See what I've built</a>
         </div>
         <dl class="stats">
           <div><dt id="stat-count">13</dt><dd>workflows automated</dd></div>
@@ -44,30 +51,6 @@
           <div><dt>Daily</dt><dd>use in real operations</dd></div>
           <div><dt>$0</dt><dd>to host this site</dd></div>
         </dl>
-      </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" class="section">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>What I've built</h2>
-          <p>Each of these is a reusable "skill" I can start with a short command, or automate entirely so that a command isn't necessary.</p>
-        </div>
-        <div class="filters" role="group" aria-label="Filter projects">
-          <button class="chip is-active" data-filter="all">All</button>
-          <button class="chip" data-filter="purchasing">Purchasing &amp; receiving</button>
-          <button class="chip" data-filter="inventory">Inventory</button>
-          <button class="chip" data-filter="reporting">Reporting</button>
-          <button class="chip" data-filter="daily">Daily operations</button>
-        </div>
-        <div class="grid" id="project-grid"><!-- filled by app.js --></div>
-        <div class="area-links">
-          <a class="area-link" href="purchasing.html"><span class="card-icon" aria-hidden="true">🧾</span><span>Purchasing &amp; Receiving<small>Examples and screenshots</small></span></a>
-          <a class="area-link" href="inventory.html"><span class="card-icon" aria-hidden="true">📦</span><span>Inventory<small>Examples and screenshots</small></span></a>
-          <a class="area-link" href="reporting.html"><span class="card-icon" aria-hidden="true">⚖️</span><span>Reporting<small>Examples and screenshots</small></span></a>
-          <a class="area-link" href="daily-operations.html"><span class="card-icon" aria-hidden="true">🖥️</span><span>Daily Operations<small>Examples and screenshots</small></span></a>
-        </div>
       </div>
     </section>
 
@@ -131,80 +114,18 @@
       </div>
     </section>
 
-    <!-- How it works -->
-    <section id="how" class="section">
+    <!-- Links to the other pages -->
+    <section class="section">
       <div class="wrap">
         <div class="section-head">
-          <h2>How it works</h2>
-          <p>No programming background needed. You describe the job in plain English, and Claude Code builds and runs it.</p>
+          <h2>Explore</h2>
         </div>
-        <ol class="steps">
-          <li>
-            <span class="step-num">1</span>
-            <h3>Describe the job</h3>
-            <p>I explain the task the way I'd train a new hire: where the files come from, what to check and what "done" looks like.</p>
-          </li>
-          <li>
-            <span class="step-num">2</span>
-            <h3>Claude builds a skill</h3>
-            <p>Claude Code writes the steps, scripts and rules into a reusable skill that reads emails, PDFs and spreadsheets and can drive desktop apps.</p>
-          </li>
-          <li>
-            <span class="step-num">3</span>
-            <h3>Run it on real work</h3>
-            <p>I run the skill on that day's documents. It does the tedious part and shows me anything that needs a person's judgment.</p>
-          </li>
-          <li>
-            <span class="step-num">4</span>
-            <h3>Refine and repeat</h3>
-            <p>When something's off, I say so and the skill improves. It soon becomes a one-word command I use every day.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- Built-in safety checks -->
-    <section id="safety" class="section section-alt">
-      <div class="wrap">
-        <div class="section-head">
-          <h2>Built-in safety checks</h2>
-          <p>Automation is only useful if it can be trusted. Every skill follows the same ground rules, so a fast mistake never replaces a slow, correct job.</p>
+        <div class="area-links">
+          <a class="area-link" href="projects.html"><span class="card-icon" aria-hidden="true">🛠️</span><span>Projects<small>Everything I've built</small></span></a>
+          <a class="area-link" href="buyers-corner.html"><span class="card-icon" aria-hidden="true">📰</span><span>Buyer's Corner<small>The newsletter redesign</small></span></a>
+          <a class="area-link" href="how-it-works.html"><span class="card-icon" aria-hidden="true">⚙️</span><span>How it works<small>Job to skill in 4 steps</small></span></a>
+          <a class="area-link" href="safety.html"><span class="card-icon" aria-hidden="true">🛡️</span><span>Safety Checks<small>The rules every skill follows</small></span></a>
         </div>
-        <div class="safety">
-          <article class="safe-card">
-            <div class="safe-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16.5 9.5"/></svg></div>
-            <div>
-              <h3>Numbers must match</h3>
-              <p>Before anything is keyed, totals are checked against the source document: the credit register, the count sheet or the vendor confirmation. If they don't match, the job stops.</p>
-              <div class="safe-eg"><span>Example</span>Register total 42 cases = sheet total 42 cases ✓</div>
-            </div>
-          </article>
-          <article class="safe-card">
-            <div class="safe-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 4v-4h0A1.5 1.5 0 0 1 4 14.5z"/><path d="M10 8.6a2 2 0 1 1 2.8 1.9c-.5.2-.8.6-.8 1.1v.3"/><path d="M12 13.6h.01"/></svg></div>
-            <div>
-              <h3>Asks instead of guessing</h3>
-              <p>Hard-to-read handwriting, an item that isn't in the system or anything outside the rules becomes a question for me, never a guess.</p>
-              <div class="safe-eg"><span>Example</span>"Row 7 could be 18 or 13. Which is it?"</div>
-            </div>
-          </article>
-          <article class="safe-card">
-            <div class="safe-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
-            <div>
-              <h3>I review the results</h3>
-              <p>Results come back as a short summary or a marked-up PDF that I check. Nothing goes to a vendor or a coworker on its own.</p>
-              <div class="safe-eg"><span>Example</span>PO 230301: 2 price differences marked for review</div>
-            </div>
-          </article>
-          <article class="safe-card">
-            <div class="safe-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4"/></svg></div>
-            <div>
-              <h3>Every run is logged</h3>
-              <p>Each job records what it read, what it keyed and the result, so any number can be traced back to where it came from.</p>
-              <div class="safe-eg"><span>Example</span>9:36 AM · NT · 4 posted · 1 skipped · totals match</div>
-            </div>
-          </article>
-        </div>
-        <p class="note safe-note">Examples use sample data.</p>
       </div>
     </section>
 
@@ -222,7 +143,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=20261104b"></script>
-  <script src="day-replay.js?v=20261104b"></script>
+  <script src="app.js?v=20261104c"></script>
+  <script src="day-replay.js?v=20261104c"></script>
 </body>
 </html>

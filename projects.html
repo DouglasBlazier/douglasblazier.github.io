@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects · Douglas Blazier</title>
+  <meta name="description" content="The operations workflows Douglas Blazier automated with Claude Code: purchasing, receiving, inventory, reporting and daily operations.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <link rel="stylesheet" href="style.css?v=20261104c">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="index.html">Douglas <span>Blazier</span></a>
+      <nav class="nav" aria-label="Sections">
+        <a href="index.html"><svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9v11h4.5v-6h4v6h4.5V9"/></svg>Home</a>
+        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="buyers-corner.html">Buyer's Corner</a>
+        <a href="purchasing.html">Examples</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="safety.html">Safety Checks</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="crumbs"><a href="index.html">Home</a> / Projects</div>
+        <h1><span class="card-icon" aria-hidden="true">🛠️</span>What I've built</h1>
+        <p class="lead">Each of these is a reusable "skill" I can start with a short command, or automate entirely so that a command isn't necessary.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="chip is-active" data-filter="all">All</button>
+          <button class="chip" data-filter="purchasing">Purchasing &amp; receiving</button>
+          <button class="chip" data-filter="inventory">Inventory</button>
+          <button class="chip" data-filter="reporting">Reporting</button>
+          <button class="chip" data-filter="daily">Daily operations</button>
+        </div>
+        <div class="grid" id="project-grid"><!-- filled by app.js --></div>
+        <div class="area-links">
+          <a class="area-link" href="purchasing.html"><span class="card-icon" aria-hidden="true">🧾</span><span>Purchasing &amp; Receiving<small>Examples and screenshots</small></span></a>
+          <a class="area-link" href="inventory.html"><span class="card-icon" aria-hidden="true">📦</span><span>Inventory<small>Examples and screenshots</small></span></a>
+          <a class="area-link" href="reporting.html"><span class="card-icon" aria-hidden="true">⚖️</span><span>Reporting<small>Examples and screenshots</small></span></a>
+          <a class="area-link" href="daily-operations.html"><span class="card-icon" aria-hidden="true">🖥️</span><span>Daily Operations<small>Examples and screenshots</small></span></a>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap pager">
+      <a href="index.html"><small>← Back to</small>Home</a>
+      <a href="how-it-works.html"><small>Next →</small>How it works</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p>© 2026 Douglas Blazier · Built with Claude Code · Descriptions use sample data only</p></div>
+  </footer>
+
+  <script src="app.js?v=20261104c"></script>
+</body>
+</html>

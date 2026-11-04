@@ -97,10 +97,13 @@ const AREA_PAGE = {
 };
 const slug = s => s.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
+// The home page shows the project count; projects.html shows the cards.
 const grid = document.getElementById("project-grid");
-document.getElementById("stat-count").textContent = PROJECTS.length;
+const statCount = document.getElementById("stat-count");
+if (statCount) statCount.textContent = PROJECTS.length;
 
 function renderProjects(filter) {
+  if (!grid) return;
   grid.innerHTML = "";
   PROJECTS.filter(p => filter === "all" || p.area === filter).forEach((p, i) => {
     const card = document.createElement("article");
@@ -131,4 +134,5 @@ document.querySelectorAll(".chip").forEach(chip => {
 });
 renderProjects("all");
 
-document.getElementById("year").textContent = new Date().getFullYear();
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
