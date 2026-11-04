@@ -6,7 +6,7 @@
   <title>Daily Operations · Douglas Blazier</title>
   <meta name="description" content="How Douglas Blazier's Claude Code automations run every day: the Email Watcher, Worker Desk, PO Desk, morning brief and self-healing sign-ins.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
-  <link rel="stylesheet" href="style.css?v=20261103e">
+  <link rel="stylesheet" href="style.css?v=20261104a">
 </head>
 <body>
   <header class="topbar">
@@ -57,7 +57,7 @@
         <p class="skill-lead">Three Claude Code sessions work like a small team. The <b>Email Watcher</b> reads incoming mail and creates jobs. The <b>Worker Desk</b> does the work on screen in the ERP and warehouse terminal. The <b>PO Desk</b> checks vendor confirmations, so a 20-minute PO check never holds up an inventory job.</p>
 
         <div class="diagram" style="margin:24px 0 32px">
-          <div class="dg-row">
+          <div class="dg-row dg-chain">
             <div class="dg-box"><b>📥 Inbox</b><small>scans, registers, count sheets</small></div>
             <div class="flow-arrow">→</div>
             <div class="dg-box hot"><b>Email Watcher</b><small>checks every minute, 8–5</small></div>
@@ -65,7 +65,7 @@
             <div class="dg-box"><b>Job queue</b><small>Queue → Working → Done</small></div>
           </div>
           <div class="dg-down">↙ &nbsp; ↘</div>
-          <div class="dg-row">
+          <div class="dg-row dg-pair">
             <div class="dg-box hot"><b>Worker Desk</b><small>NT · MR · MF · Receiving POs · Tonnage</small></div>
             <div class="dg-box hot"><b>PO Desk</b><small>PO checks + keying price changes</small></div>
           </div>

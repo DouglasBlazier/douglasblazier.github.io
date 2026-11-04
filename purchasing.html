@@ -6,7 +6,7 @@
   <title>Purchasing &amp; Receiving · Douglas Blazier</title>
   <meta name="description" content="Examples of the purchasing and receiving workflows Douglas Blazier automated with Claude Code.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8643f'/><path d='M9 17l5 5 9-11' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
-  <link rel="stylesheet" href="style.css?v=20261103e">
+  <link rel="stylesheet" href="style.css?v=20261104a">
 </head>
 <body>
   <header class="topbar">
@@ -55,7 +55,7 @@
           <span class="card-icon" aria-hidden="true">🧾</span>
           <div><div class="card-area">Purchasing &amp; receiving</div><h2>PO Discrepancy Check</h2></div>
         </div>
-        <p class="skill-lead">Vendors send order confirmations that don't always match what we ordered: a price creeps up, a quantity gets cut, or an item disappears. This workflow checks every line and marks up the PO the way a buyer would with a red pen.</p>
+        <p class="skill-lead">Vendors send order confirmations that don't always match what we ordered: a price creeps up, a quantity gets cut, or an item disappears. This workflow checks every line and marks each difference right on the PO, the way a buyer would by hand.</p>
         <div class="skill-body">
           <div>
             <h3>How it runs</h3>
@@ -88,7 +88,7 @@
                   <div class="bigstamp">3 Discrepancies<small>On This PO</small></div>
                   <h4>PURCHASE ORDER</h4>
                   <div class="sub"><span>PO 240117 · Sample Vendor Co.</span><span>Req. 11/04/26</span></div>
-                  <table>
+                  <table class="po-mark">
                     <thead><tr><th></th><th>Vendor Item</th><th>Description</th><th class="num">Qty</th><th class="num">Unit Cost</th></tr></thead>
                     <tbody>
                       <tr><td class="m"></td><td>SV-1021<span class="tick">✓</span></td><td>Mozzarella, Shredded 4/5 LB</td><td class="num">40<span class="tick">✓</span></td><td class="num">62.5000<span class="tick">✓</span></td></tr>
