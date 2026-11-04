@@ -41,7 +41,7 @@
         <p>This page contains internal company information. Enter the password to view it.</p>
         <form id="lock-form" autocomplete="off">
           <label class="sr-only" for="pw">Password</label>
-          <input id="pw" type="password" placeholder="Password" required autofocus>
+          <input id="pw" type="password" placeholder="Password" required>
           <button class="btn btn-primary" type="submit" id="unlock">Unlock</button>
           <p class="err" id="err" role="alert"></p>
         </form>
@@ -82,6 +82,12 @@
       return crypto.subtle.deriveKey(
         { name: "PBKDF2", salt: b64(PAYLOAD.salt), iterations: PAYLOAD.iter, hash: "SHA-256" },
         base, { name: "AES-GCM", length: 256 }, true, ["decrypt"]);
+    }
+
+    // On a computer, put the cursor in the password box without scrolling.
+    // Phones skip this, so the page opens at the top and the keyboard stays closed until the box is tapped.
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      try { $("pw").focus({ preventScroll: true }); } catch {}
     }
 
     if (!PAYLOAD) {
