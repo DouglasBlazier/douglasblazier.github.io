@@ -133,6 +133,10 @@ small { font-size: .8em; }
   display: inline-block; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
   color: var(--accent); background: var(--accent-soft); padding: 4px 10px; border-radius: 999px;
 }
+/* Greeting above the headline, in the same font the name used in the top bar */
+.hello { font-size: 1.55rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.25; margin: 0; color: var(--text); }
+.hello span { color: var(--accent); }
+@media (max-width: 600px) { .hello { font-size: 1.4rem; } }
 .hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); max-width: 18ch; margin-top: 12px; }
 .accent { color: var(--accent); }
 .lead { font-size: 1.15rem; color: var(--muted); max-width: 62ch; }
